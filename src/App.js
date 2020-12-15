@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
-import Tag from './Components/Tag';
+import Tag from './Components/Tag.js';
+//import { InputFont, InputName, InputRange } from './Components/Inputs.js';
+import RotateViewer from './Components/RotateViewer.js';
 
 class App extends Component {
   constructor(props) {
@@ -8,7 +10,9 @@ class App extends Component {
 
     this.state = {
       name: '',
-      font: '',
+      font: 'serif',
+      space: 0,
+      start: 0,
     };
   }
 
@@ -26,23 +30,35 @@ class App extends Component {
           <div className="disc-preview">
             <Tag
               className="App-logo"
-              name={this.state.name}
-              font={this.state.font}
+              typedName={this.state.name}
+              fontFamily={this.state.font}
+              spaceBetween={this.state.space}
+              startPosition={this.state.start}
             />
+            <RotateViewer />
+          </div>
+          <div className="table">
+            <ul>
+              <li>{this.state.name}</li>
+              <li>{this.state.font}</li>
+              <li>{this.state.space}</li>
+              <li>{this.state.start}</li>
+            </ul>
           </div>
           <div className="disc-properties">
             <label>
               Select font:
-              <select id="fontFamily" name="font">
-                <option id="arialFont" value="arial">
-                  Arial
-                </option>
-                <option id="courierNewFont" value="courierNew">
-                  Courier New
-                </option>
-                <option id="cambriaFont" value="cambria">
-                  Cambria
-                </option>
+              <select
+                id="fontFamily"
+                name="font"
+                onChange={(input) =>
+                  this.setState({ font: input.target.value })
+                }
+              >
+                <option value="arial">Arial</option>
+                <option value="courierNew">Courier New</option>
+                <option value="cambria">Cambria</option>
+                <option value="monospace">Monospace</option>
               </select>
             </label>
             <label>
@@ -52,6 +68,32 @@ class App extends Component {
                 name="name"
                 onChange={(input) =>
                   this.setState({ name: input.target.value })
+                }
+              />
+            </label>
+            <label>
+              Select space between caracters:
+              <input
+                type="range"
+                name="space"
+                min="0"
+                max="10"
+                step="0.1"
+                onChange={(input) =>
+                  this.setState({ space: input.target.value })
+                }
+              />
+            </label>
+            <label>
+              Select starting point:
+              <input
+                type="range"
+                name="start"
+                min="0"
+                max="360"
+                step="1"
+                onChange={(input) =>
+                  this.setState({ start: input.target.value })
                 }
               />
             </label>
