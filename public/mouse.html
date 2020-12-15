@@ -7,6 +7,11 @@ function init() {
 	document.captureEvents(Event.MOUSEMOVE);
 	}
 	document.onmousemove = getCursorXY;
+  document.getElementById("myBtn").addEventListener("click", displayDate);
+
+}
+function displayDate() {
+  document.getElementById("demo").innerHTML = Date();
 }
 
 function getCursorXY(e) {
