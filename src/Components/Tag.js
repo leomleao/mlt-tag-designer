@@ -4,9 +4,9 @@ import { useRef } from 'react';
 /**
  *
  * @param {string} text - The name provided from input
- * @param {number} x - x
- * @param {number} y - y
- * @param {number} radius - radius
+ * @param {number} x - x position in the canvas
+ * @param {number} y - y position in the canvas
+ * @param {number} radius - circle radius
  * @param {number} startRotation - startRotations
  */
 CanvasRenderingContext2D.prototype.fillTextCircle = function (
@@ -16,7 +16,11 @@ CanvasRenderingContext2D.prototype.fillTextCircle = function (
   radius,
   startRotation
 ) {
-  var numDegreesPerLetter = (2 * Math.PI) / text.length;
+  startRotation = startRotation / 55 + 3.8;
+  const numDegreesPerLetter = (2 * Math.PI) / text.length;
+
+  console.log(text, x, y, radius, startRotation);
+
   this.save();
   this.translate(x, y);
   this.rotate(startRotation);
@@ -52,29 +56,47 @@ const getPixelRatio = (context) => {
     1;
   return (window.devicePixelRatio || 1) / backingStore;
 };
-
+/**
+ *
+ * @param {*} props
+ * @param {string} props.typedName - Typed name
+ * @param {string} props.fontFamily - []
+ * @param {number} props.spaceBetween - between 0 and 10 step 0.1
+ * @param {number} props.startPosition - between 0 and 360
+ *
+ */
 const Tag = (props) => {
-  let ref = useRef();
+  const { typedName, fontFamily, spaceBetween, startPosition } = props;
+  const ref = useRef();
 
   useEffect(() => {
-    let canvas = ref.current;
-    let ctx = canvas.getContext('2d');
+    // reference to the canvas Element:
+    const canvas = ref.current;
+    const ctx = canvas.getContext('2d');
 
-    let ratio = getPixelRatio(ctx);
-    let width = getComputedStyle(canvas).getPropertyValue('width').slice(0, -2);
-    let height = getComputedStyle(canvas)
+    // set width and height
+    const ratio = getPixelRatio(ctx);
+
+    const width = getComputedStyle(canvas)
+      .getPropertyValue('width')
+      .slice(0, -2);
+    const height = getComputedStyle(canvas)
       .getPropertyValue('height')
       .slice(0, -2);
-
     canvas.width = width * ratio;
     canvas.height = height * ratio;
     canvas.style.width = `${width}px`;
     canvas.style.height = `${height}px`;
 
-    ctx.font = 'bold 30px Serif';
-    ctx.fillTextCircle(props.name, 50, 50, 25, Math.PI / 2);
+    console.log(spaceBetween, startPosition);
+    // set font style
+    const fontSize = 30;
+    ctx.font = `bold ${fontSize}px ${fontFamily}`;
+    ctx.fillTextCircle(typedName, width / 2, height / 2, 40, startPosition);
   });
-  return <canvas ref={ref} style={{ width: '160px', height: '160px' }} />;
+
+  // JSX canvas Element to render the '2d' draw
+  return <canvas ref={ref} style={{ width: '200px', height: '200px' }} />;
 };
 
 export default Tag;
