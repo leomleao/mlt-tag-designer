@@ -8,6 +8,7 @@ import { useRef } from 'react';
  * @param {number} y - y position in the canvas
  * @param {number} radius - circle radius
  * @param {number} startRotation - startRotations in degrees
+ * @param {number} spacing - between 0 and 10 step 0.1
  */
 CanvasRenderingContext2D.prototype.fillTextCircle = function (
   text,
@@ -18,26 +19,69 @@ CanvasRenderingContext2D.prototype.fillTextCircle = function (
   spacing
 ) {
   // (π = perímetro / diâmetro)
-  // sen = cat oposto/hipotenusa
 
-  let numRadiansPerLetter = degreesInRadians(360 / text.length);
+  // spancing without the spacing variable (lenght increment is to add a space)
+  const maxRadiansPerLetter = degreesInRadians(360 / (text.length + 1));
 
-  this.save();
   // move the origin to the canvas center
   this.translate(x, y);
-  this.fill();
 
   // rotate to match the startRotation
   this.rotate(degreesInRadians(startRotation));
 
+  // interact whith each character in the name provided from input and print
   for (let i = 0; i < text.length; i++) {
-    const caracterWidth = this.measureText(text[i]).width;
-    this.fillText(text[i], -caracterWidth / 2, -radius);
-    this.rotate(numRadiansPerLetter);
-    console.log(caracterWidth);
+    // measure actual text width
+    const charWidth = this.measureText(text[i]).width;
+    let nextCharWidth = null;
+    // measure next text width, if exists
+    if (i + 1 < text.length)
+      nextCharWidth = this.measureText(text[i + 1]).width;
+
+    // print character centered in the x axis and moved radius value in the y axis
+    this.fillText(text[i], -charWidth / 2, -radius);
+
+    const radiansToRotate = radiansForLetters(charWidth, nextCharWidth);
+
+    // rotate for the next character
+    this.rotate(radiansToRotate);
+  }
+
+  function radiansForLetters(charWidth, nextCharWidth) {
+    if (!nextCharWidth) {
+      return 0;
+    }
+    // minimal spacing
+    const lettersSpacing = charWidth / 2.5 + nextCharWidth / 2.5;
+    // sen = cat oposto/hipotenusa
+    const minRadiansPerLetter = Math.asin(lettersSpacing / radius);
+
+    /**
+     * create a spacing variable:
+     * @param {number} spacing - Max spacing when spacing == 1
+     *                         - Min spacing when spacing == 0
+     */
+    const calculatedSpacing =
+      (maxRadiansPerLetter - minRadiansPerLetter) * spacing;
+
+    // add the spacing variable to the min
+    const numRadiansPerLetter = minRadiansPerLetter + calculatedSpacing;
+
+    return numRadiansPerLetter;
   }
 };
 
+/**
+ *
+ * @param {number} charWidth - between 8 and 30
+ * @param {number} nextCharWidth - between 8 and 30
+ * @returns {number} - in radians
+ */
+
+/**
+ *
+ * @param {number} degree
+ */
 const degreesInRadians = (degree) => (degree * Math.PI) / 180;
 
 const getPixelRatio = (context) => {
@@ -51,6 +95,7 @@ const getPixelRatio = (context) => {
     1;
   return (window.devicePixelRatio || 1) / backingStore;
 };
+
 /**
  *
  * @param {*} props
@@ -71,7 +116,6 @@ const Tag = (props) => {
 
     // set width and height
     const ratio = getPixelRatio(ctx);
-
     const width = getComputedStyle(canvas)
       .getPropertyValue('width')
       .slice(0, -2);
@@ -90,13 +134,13 @@ const Tag = (props) => {
       typedName,
       width / 2,
       height / 2,
-      35,
+      30,
       startPosition,
       spaceBetween
     );
   });
 
-  // JSX canvas Element to render the '2d' draw
+  // JSX canvas Element with the '2d' draw
   return <canvas ref={ref} style={{ width: '200px', height: '200px' }} />;
 };
 

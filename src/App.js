@@ -76,8 +76,8 @@ class App extends Component {
                 type="range"
                 name="space"
                 min="0"
-                max="10"
-                step="0.1"
+                max="1"
+                step="0.000001"
                 onChange={(input) =>
                   this.setState({ space: input.target.value })
                 }
