@@ -138,6 +138,10 @@ const Tag = (props) => {
       startPosition,
       spaceBetween
     );
+    var dataURL = canvas.toDataURL();
+    console.log(`Data is: ${dataURL}`);
+    // let imageData = ctx.getImageData(0, 0, 200, 200);
+    // console.log(JSON.stringify(imageData));
   });
 
   // JSX canvas Element with the '2d' draw
