@@ -7,43 +7,38 @@ import { useRef } from 'react';
  * @param {number} x - x position in the canvas
  * @param {number} y - y position in the canvas
  * @param {number} radius - circle radius
- * @param {number} startRotation - startRotations
+ * @param {number} startRotation - startRotations in degrees
  */
 CanvasRenderingContext2D.prototype.fillTextCircle = function (
   text,
   x,
   y,
   radius,
-  startRotation
+  startRotation,
+  spacing
 ) {
-  startRotation = startRotation / 55 + 3.8;
-  const numDegreesPerLetter = (2 * Math.PI) / text.length;
+  // (π = perímetro / diâmetro)
+  // sen = cat oposto/hipotenusa
 
-  console.log(text, x, y, radius, startRotation);
+  let numRadiansPerLetter = degreesInRadians(360 / text.length);
 
   this.save();
+  // move the origin to the canvas center
   this.translate(x, y);
-  this.rotate(startRotation);
+  this.fill();
 
-  for (var i = 0; i < text.length; i++) {
-    this.save();
-    this.translate(radius, 0);
-    //      if (i == 0) {
-    //          this.fillStyle = 'red';
-    this.translate(10, -10);
-    //          this.fillRect(0,0,4,4);
-    this.rotate(1.4);
-    this.translate(-10, 10);
-    //          this.fillStyle = 'black';
-    //      }
+  // rotate to match the startRotation
+  this.rotate(degreesInRadians(startRotation));
 
-    //      this.fillRect(0,0,4,4);
-    this.fillText(text[i], 0, 0);
-    this.restore();
-    this.rotate(numDegreesPerLetter);
+  for (let i = 0; i < text.length; i++) {
+    const caracterWidth = this.measureText(text[i]).width;
+    this.fillText(text[i], -caracterWidth / 2, -radius);
+    this.rotate(numRadiansPerLetter);
+    console.log(caracterWidth);
   }
-  this.restore();
 };
+
+const degreesInRadians = (degree) => (degree * Math.PI) / 180;
 
 const getPixelRatio = (context) => {
   var backingStore =
@@ -88,11 +83,17 @@ const Tag = (props) => {
     canvas.style.width = `${width}px`;
     canvas.style.height = `${height}px`;
 
-    console.log(spaceBetween, startPosition);
     // set font style
     const fontSize = 30;
     ctx.font = `bold ${fontSize}px ${fontFamily}`;
-    ctx.fillTextCircle(typedName, width / 2, height / 2, 40, startPosition);
+    ctx.fillTextCircle(
+      typedName,
+      width / 2,
+      height / 2,
+      35,
+      startPosition,
+      spaceBetween
+    );
   });
 
   // JSX canvas Element to render the '2d' draw
