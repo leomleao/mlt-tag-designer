@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
 import Tag from './Components/Tag.js';
-//import { InputFont, InputName, InputRange } from './Components/Inputs.js';
 import RotateViewer from './Components/RotateViewer.js';
 
 class App extends Component {
