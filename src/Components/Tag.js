@@ -9,6 +9,7 @@ import { useRef } from 'react';
  * @param {number} radius - circle radius
  * @param {number} startRotation - startRotations in degrees
  * @param {number} spacing - between 0 and 10 step 0.1
+ * @returns {number} rotationDone in degress
  */
 CanvasRenderingContext2D.prototype.fillTextCircle = function (
   text,
@@ -29,6 +30,8 @@ CanvasRenderingContext2D.prototype.fillTextCircle = function (
   // rotate to match the startRotation
   this.rotate(degreesInRadians(startRotation));
 
+  let rotationDone = 0;
+
   // interact whith each character in the name provided from input and print
   for (let i = 0; i < text.length; i++) {
     // measure actual text width
@@ -45,8 +48,23 @@ CanvasRenderingContext2D.prototype.fillTextCircle = function (
 
     // rotate for the next character
     this.rotate(radiansToRotate);
+
+    // incremente the ratation
+    rotationDone += radiansToRotate;
+    // end of fot interaction
   }
 
+  return (rotationDone * 180) / Math.PI;
+  // end of funtion fillTextCircle
+
+  /**
+   * this functio is here because use the local function scope
+   * @param {number} spacing - the local scope
+   *
+   * @param {number} charWidth
+   * @param {number} nextCharWidth - Optional
+   * @returns {number} - in radians
+   */
   function radiansForLetters(charWidth, nextCharWidth) {
     if (!nextCharWidth) {
       return 0;
@@ -63,23 +81,18 @@ CanvasRenderingContext2D.prototype.fillTextCircle = function (
      */
     const calculatedSpacing =
       (maxRadiansPerLetter - minRadiansPerLetter) * spacing;
-
+    // console.log(`max: ${maxRadiansPerLetter}`);
+    // console.log(`min: ${minRadiansPerLetter}`);
     // add the spacing variable to the min
     const numRadiansPerLetter = minRadiansPerLetter + calculatedSpacing;
 
     return numRadiansPerLetter;
+    //end of function radiansForLetters
   }
 };
 
 /**
- *
- * @param {number} charWidth - between 8 and 30
- * @param {number} nextCharWidth - between 8 and 30
- * @returns {number} - in radians
- */
-
-/**
- *
+ * 6,2831853071640004771 rad = 360 deg
  * @param {number} degree
  */
 const degreesInRadians = (degree) => (degree * Math.PI) / 180;
