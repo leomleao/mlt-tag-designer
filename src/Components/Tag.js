@@ -66,11 +66,14 @@ CanvasRenderingContext2D.prototype.fillTextCircle = function (
    * @returns {number} - in radians
    */
   function radiansForLetters(charWidth, nextCharWidth) {
-    if (!nextCharWidth) {
-      return 0;
-    }
+    let lettersSpacing;
+
     // minimal spacing
-    const lettersSpacing = charWidth / 2.5 + nextCharWidth / 2.5;
+    if (nextCharWidth) {
+      lettersSpacing = charWidth / 2.5 + nextCharWidth / 2.5;
+    } else {
+      lettersSpacing = charWidth * 0.8;
+    }
     // sen = cat oposto/hipotenusa
     const minRadiansPerLetter = Math.asin(lettersSpacing / radius);
 
@@ -84,8 +87,9 @@ CanvasRenderingContext2D.prototype.fillTextCircle = function (
     // console.log(`max: ${maxRadiansPerLetter}`);
     // console.log(`min: ${minRadiansPerLetter}`);
     // add the spacing variable to the min
-    const numRadiansPerLetter = minRadiansPerLetter + calculatedSpacing;
-
+    let numRadiansPerLetter = minRadiansPerLetter;
+    if (calculatedSpacing > 0)
+      numRadiansPerLetter = minRadiansPerLetter + calculatedSpacing;
     return numRadiansPerLetter;
     //end of function radiansForLetters
   }
@@ -140,19 +144,35 @@ const Tag = (props) => {
     canvas.style.width = `${width}px`;
     canvas.style.height = `${height}px`;
 
-    // set font style
-    const fontSize = 30;
-    ctx.font = `bold ${fontSize}px ${fontFamily}`;
-    ctx.fillTextCircle(
-      typedName,
-      width / 2,
-      height / 2,
-      30,
-      startPosition,
-      spaceBetween
-    );
-    var dataURL = canvas.toDataURL();
-    console.log(`Data is: ${dataURL}`);
+    // setting params
+    const radius = 30;
+    let fontSize = 35;
+    let rotationDone = 0;
+
+    do {
+      ctx.font = `bold ${fontSize}px ${fontFamily}`;
+
+      ctx.resetTransform();
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      rotationDone = ctx.fillTextCircle(
+        typedName,
+        width / 2,
+        height / 2,
+        radius,
+        startPosition,
+        spaceBetween
+      );
+      fontSize -= 1;
+
+      if (fontSize < 25) {
+        console.log('more then 350');
+        break;
+      }
+    } while (rotationDone > 360);
+
+    // var dataURL = canvas.toDataURL();
+    // console.log(`Data is: ${dataURL}`);
     // let imageData = ctx.getImageData(0, 0, 200, 200);
     // console.log(JSON.stringify(imageData));
   });
