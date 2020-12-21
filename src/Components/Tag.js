@@ -44,12 +44,12 @@ CanvasRenderingContext2D.prototype.fillTextCircle = function (
       nextCharWidth = this.measureText(text[i + 1]).width;
 
     // print character centered in the x axis and moved radius value in the y axis
-    this.fillText(text[i], -charWidth / 2, -radius);
+    this.fillText(text[i], -charWidth / 2, radius * 1.6);
 
     const radiansToRotate = radiansForLetters(charWidth, nextCharWidth);
 
     // rotate for the next character
-    this.rotate(radiansToRotate);
+    this.rotate(radiansToRotate * -1);
 
     // incremente the ratation
     rotationDone += radiansToRotate;
