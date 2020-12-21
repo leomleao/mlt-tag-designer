@@ -19,6 +19,8 @@ CanvasRenderingContext2D.prototype.fillTextCircle = function (
   startRotation,
   spacing
 ) {
+  //dynamic spacing
+
   // (π = perímetro / diâmetro)
 
   // spancing without the spacing variable (lenght increment is to add a space)

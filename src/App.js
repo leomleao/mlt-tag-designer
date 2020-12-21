@@ -3,6 +3,10 @@ import './App.css';
 import Tag from './Components/Tag.js';
 import RotateViewer from './Components/RotateViewer.js';
 
+/**
+ * change the onchange functions to handle...
+ */
+
 class App extends Component {
   constructor(props) {
     super(props);
