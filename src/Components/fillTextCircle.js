@@ -37,77 +37,43 @@ CanvasRenderingContext2D.prototype.fillTextCircle = function (
 
   this.rotate(degreesInRadians(-100));
 
+  const letters = Array(text.length);
+
+  // calculate the rotation for the provided name
+  for (let i = 0; i < text.length; i++) {
+    // measure character width
+    const charWidth = this.measureText(text[i]).width;
+    letters[i] = {
+      width: charWidth,
+      rads: radiansForLetters(charWidth, radius),
+    };
+  }
+  let aditionalSpace = 0;
+  // 5.7 radians is the max acceptable
+  if (text) {
+    let result =
+      5.7 -
+      letters.reduce((acc, { rads }) => {
+        return acc + rads;
+      }, 0);
+    aditionalSpace = (result / text.length) * text.length * 0.075;
+  }
   let rotationDone = 0;
-  const spacingLeft = 300 - this.measureText(text).width;
-  const aditionalRadians = radiansForLetters(spacingLeft / text.length, radius);
-  console.log(aditionalRadians);
   // interact whith each character in the name provided from input and print
   for (let i = 0; i < text.length; i++) {
-    // measure actual text width
-    const charWidth = this.measureText(text[i]).width;
-
-    let radiansToRotate = radiansForLetters(charWidth, radius);
-
-    if (aditionalRadians > 0) {
-      radiansToRotate = radiansToRotate + aditionalRadians * spacing;
-    }
+    const radiansToRotate =
+      letters[i].rads + (aditionalSpace < 0 ? 0 : aditionalSpace);
     // rotate half actual char width
     this.rotate(radiansToRotate * -0.5);
-
     // print character centered in the x axis and moved radius value in the y axis
-    this.fillText(text[i], -charWidth / 2, radius * 1.6);
-
-    // reotate another half
+    this.fillText(text[i], (letters[i].width * -1) / 2, radius * 1.6);
+    // rotate another half
     this.rotate(radiansToRotate * -0.5);
-
-    // incremente the ratation
     rotationDone += radiansToRotate;
   }
-  // end of fot interaction
-
-  //   // this.translate(charWidth, 0);
-
-  // }
-
-  // return (rotationDone * 180) / Math.PI;
-  // // end of funtion fillTextCircle
-
-  // /**
-  //  * this functio is here because use the local function scope
-  //  * @param {number} spacing - the local scope
-  //  *
-  //  * @param {number} charWidth
-  //  * @param {number} nextCharWidth - Optional
-  //  * @returns {number} - in radians
-  //  */
-  // function radiansForLetters(charWidth, nextCharWidth) {
-  //   let lettersSpacing;
-
-  //   // minimal spacing
-  //   if (nextCharWidth) {
-  //     lettersSpacing = charWidth / 2.5 + nextCharWidth / 2.5;
-  //   } else {
-  //     lettersSpacing = charWidth * 0.8;
-  //   }
-  //   // sen = cat oposto/hipotenusa
-  //   const minRadiansPerLetter = Math.asin(lettersSpacing / radius);
-
-  //   /**
-  //    * create a spacing variable:
-  //    * @param {number} spacing - Max spacing when spacing == 1
-  //    *                         - Min spacing when spacing == 0
-  //    */
-  //   const calculatedSpacing =
-  //     (maxRadiansPerLetter - minRadiansPerLetter) * spacing;
-  //   // console.log(`max: ${maxRadiansPerLetter}`);
-  //   // console.log(`min: ${minRadiansPerLetter}`);
-  //   // add the spacing variable to the min
-  //   let numRadiansPerLetter = minRadiansPerLetter;
-  //   if (calculatedSpacing > 0)
-  //     numRadiansPerLetter = minRadiansPerLetter + calculatedSpacing;
-  //   return numRadiansPerLetter;
-  //   //end of function radiansForLetters
-  // }
+  if (rotationDone > 5.7) {
+    console.log('More then I can take');
+  }
 };
 
 /**
