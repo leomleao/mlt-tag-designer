@@ -51,27 +51,27 @@ const Tag = (props) => {
     let fontSize = 45;
     let rotationDone = 0;
 
-    // do {
-    ctx.font = `bold ${fontSize}px ${fontFamily}`;
+    do {
+      ctx.font = `bold ${fontSize}px ${fontFamily}`;
 
-    ctx.resetTransform();
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.resetTransform();
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    rotationDone = ctx.fillTextCircle(
-      typedName,
-      width / 2,
-      height / 2,
-      radius,
-      parseInt(startPosition, 10),
-      parseFloat(spaceBetween)
-    );
-    fontSize -= 1;
+      rotationDone = ctx.fillTextCircle(
+        typedName,
+        width / 2,
+        height / 2,
+        radius,
+        parseInt(startPosition, 10),
+        parseFloat(spaceBetween)
+      );
+      fontSize -= 1;
 
-    // if (fontSize < 25) {
-    //   console.log('more then 350');
-    //   break;
-    // }
-    // } while (rotationDone > 360);
+      if (fontSize < 30) {
+        console.log('Font Size bellow 30');
+        break;
+      }
+    } while (rotationDone > 330);
 
     // var dataURL = canvas.toDataURL();
     // console.log(`Data is: ${dataURL}`);

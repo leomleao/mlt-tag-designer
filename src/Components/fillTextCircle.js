@@ -5,7 +5,7 @@
  * @param {number} y - y position in the canvas
  * @param {number} radius - circle radius
  * @param {number} startRotation - startRotations in degrees
- * @param {number} spacing - between 0 and 10 step 0.1
+ * @param {number} minSpacing
  * @returns {number} rotationDone in degress
  */
 CanvasRenderingContext2D.prototype.fillTextCircle = function (
@@ -14,7 +14,7 @@ CanvasRenderingContext2D.prototype.fillTextCircle = function (
   y,
   radius,
   startRotation,
-  spacing
+  minSpacing
 ) {
   // (π = perímetro / diâmetro)
 
@@ -62,7 +62,8 @@ CanvasRenderingContext2D.prototype.fillTextCircle = function (
   // interact whith each character in the name provided from input and print
   for (let i = 0; i < text.length; i++) {
     const radiansToRotate =
-      letters[i].rads + (aditionalSpace < 0 ? 0 : aditionalSpace);
+      letters[i].rads +
+      (aditionalSpace < minSpacing ? minSpacing : aditionalSpace);
     // rotate half actual char width
     this.rotate(radiansToRotate * -0.5);
     // print character centered in the x axis and moved radius value in the y axis
@@ -71,9 +72,11 @@ CanvasRenderingContext2D.prototype.fillTextCircle = function (
     this.rotate(radiansToRotate * -0.5);
     rotationDone += radiansToRotate;
   }
+
   if (rotationDone > 5.7) {
     console.log('More then I can take');
   }
+  return (rotationDone * 180) / Math.PI;
 };
 
 /**
