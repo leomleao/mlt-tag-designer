@@ -61,6 +61,19 @@ class App extends Component {
                 <option value="arial">Arial</option>
                 <option value="courierNew">Courier New</option>
                 <option value="cambria">Cambria</option>
+                <option value="American Captain">American Captain</option>
+                <option value="Bauhaus 93">Bauhaus 93</option>
+                <option value="Berlin Sans FB Demi">Berlin Sans FB Demi</option>
+                <option value="Cooper Black">Cooper Black</option>
+                <option value="Forte">Forte</option>
+                <option value="Gill Sans Ultra Bold Condensed">
+                  Gill Sans Ultra Bold Condensed
+                </option>
+                <option value="Hobo Std">Hobo Std</option>
+                <option value="Nyam Regular">Nyam Regular</option>
+                <option value="Showcard Gothic">Showcard Gothic</option>
+                <option value="Stencil">Stencil</option>
+                <option value="Tekton Pro">Tekton Pro</option>
                 <option value="monospace">Monospace</option>
               </select>
             </label>
