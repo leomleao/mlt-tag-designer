@@ -1,7 +1,5 @@
-import React from 'react';
-import { useEffect } from 'react';
-import { useRef } from 'react';
-import './fillTextCircle.js';
+import React, { useEffect, useRef } from 'react';
+import '../helpers/fillTextCircle.js';
 
 const getPixelRatio = (context) => {
   var backingStore =
@@ -48,34 +46,29 @@ const Tag = (props) => {
 
     // setting params
     const radius = 40;
-    let fontSize = 45;
-    let rotationDone = 0;
+    const fontSize = 45;
 
-    do {
-      ctx.font = `bold ${fontSize}px ${fontFamily}`;
+    ctx.font = `bold ${fontSize}px ${fontFamily}`;
 
-      ctx.resetTransform();
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.resetTransform();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      rotationDone = ctx.fillTextCircle(
-        typedName,
-        width / 2,
-        height / 2,
-        radius,
-        parseInt(startPosition, 10),
-        parseFloat(spaceBetween)
-      );
-      fontSize -= 1;
+    const rotationDone = ctx.fillTextCircle(
+      typedName,
+      width / 2,
+      height / 2,
+      radius,
+      parseInt(startPosition, 10),
+      parseFloat(spaceBetween)
+    );
 
-      if (fontSize < 30) {
-        console.log('Font Size bellow 30');
-        break;
-      }
-    } while (rotationDone > 330);
+    if (rotationDone > 330) {
+      console.log('more than i can take');
+    }
 
-    // var dataURL = canvas.toDataURL();
-    // console.log(`Data is: ${dataURL}`);
-    // let imageData = ctx.getImageData(0, 0, 200, 200);
+    var dataURL = canvas.toDataURL();
+    // console.log(`${dataURL}`);
+    let imageData = ctx.getImageData(0, 0, 200, 200);
     // console.log(JSON.stringify(imageData));
   });
 

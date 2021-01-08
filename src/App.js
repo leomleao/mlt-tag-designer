@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Tag from './Components/Tag.js';
 import RotateViewer from './Components/RotateViewer.js';
+import { styles } from './styles.js';
 
 /**
  * change the onchange functions to handle...
@@ -27,7 +28,7 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <h1>MLT Tag Designer</h1>
+          <h1 style={styles}>MLT Tag Designer</h1>
         </header>
         <div className="App-body">
           <div className="disc-preview">
@@ -84,19 +85,6 @@ class App extends Component {
                 name="name"
                 onChange={(input) =>
                   this.setState({ name: input.target.value })
-                }
-              />
-            </label>
-            <label>
-              Select space between caracters:
-              <input
-                type="range"
-                name="space"
-                min="0.00001"
-                max="1"
-                step="0.00001"
-                onChange={(input) =>
-                  this.setState({ space: input.target.value })
                 }
               />
             </label>

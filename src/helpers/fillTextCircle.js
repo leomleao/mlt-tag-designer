@@ -39,7 +39,7 @@ CanvasRenderingContext2D.prototype.fillTextCircle = function (
 
   const letters = Array(text.length);
 
-  // calculate the rotation for the provided name
+  // calculate the rotation for every letter in the provided text
   for (let i = 0; i < text.length; i++) {
     // measure character width
     const charWidth = this.measureText(text[i]).width;
@@ -48,22 +48,26 @@ CanvasRenderingContext2D.prototype.fillTextCircle = function (
       rads: radiansForLetters(charWidth, radius),
     };
   }
+  // calculate the minimal radians rotation for the name
+  const minimalRads = letters.reduce((acc, { rads }) => {
+    return acc + rads;
+  }, 0);
+
+  // calculate the aditional space
   let aditionalSpace = 0;
-  // 5.7 radians is the max acceptable
+  const radLimit = 5.7;
+  const spaceAvailable = radLimit - minimalRads;
   if (text) {
-    let result =
-      5.7 -
-      letters.reduce((acc, { rads }) => {
-        return acc + rads;
-      }, 0);
-    aditionalSpace = (result / text.length) * text.length * 0.075;
+    aditionalSpace = (spaceAvailable / text.length) * (text.length / 20);
   }
+
   let rotationDone = 0;
   // interact whith each character in the name provided from input and print
   for (let i = 0; i < text.length; i++) {
     const radiansToRotate =
       letters[i].rads +
       (aditionalSpace < minSpacing ? minSpacing : aditionalSpace);
+
     // rotate half actual char width
     this.rotate(radiansToRotate * -0.5);
     // print character centered in the x axis and moved radius value in the y axis
@@ -71,10 +75,6 @@ CanvasRenderingContext2D.prototype.fillTextCircle = function (
     // rotate another half
     this.rotate(radiansToRotate * -0.5);
     rotationDone += radiansToRotate;
-  }
-
-  if (rotationDone > 5.7) {
-    console.log('More then I can take');
   }
   return (rotationDone * 180) / Math.PI;
 };
