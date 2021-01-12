@@ -1,5 +1,4 @@
 /**
- *
  * @param {string} text - The name provided from input
  * @param {number} x - x position in the canvas
  * @param {number} y - y position in the canvas

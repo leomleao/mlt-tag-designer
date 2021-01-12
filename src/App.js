@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './App.css';
 import Tag from './Components/Tag.js';
 import RotateViewer from './Components/RotateViewer.js';
-import { styles } from './styles.js';
 
 /**
  * change the onchange functions to handle...
@@ -28,7 +27,7 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <h1 style={styles}>MLT Tag Designer</h1>
+          <h1>MLT Tag Designer</h1>
         </header>
         <div className="App-body">
           <div className="disc-preview">

@@ -66,9 +66,9 @@ const Tag = (props) => {
       console.log('more than i can take');
     }
 
-    var dataURL = canvas.toDataURL();
+    // var dataURL = canvas.toDataURL();
     // console.log(`${dataURL}`);
-    let imageData = ctx.getImageData(0, 0, 200, 200);
+    // let imageData = ctx.getImageData(0, 0, 200, 200);
     // console.log(JSON.stringify(imageData));
   });
 
