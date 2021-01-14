@@ -1,0 +1,39 @@
+header {
+  min-height: 20vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #520369;
+  font-family: 'Quicksand', sans-serif;
+}
+
+footer {
+  min-height: 6vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e5e8ea;
+}
+
+.App-body {
+  background-color: #fff;
+  min-height: 74vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: rgb(241, 226, 13);
+}
+
+.disc-properties {
+  display: flex;
+  flex-direction: column;
+}
+
+.table {
+  width: 80vw;
+  text-align: start;
+  border: 1px solid blueviolet;
+}
