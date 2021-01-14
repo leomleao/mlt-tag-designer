@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import '../helpers/fillTextCircle.js';
+import PropTypes from 'prop-types';
+import '../../helpers/fillTextCircle.js';
 
 const getPixelRatio = (context) => {
   var backingStore =
@@ -13,17 +14,14 @@ const getPixelRatio = (context) => {
   return (window.devicePixelRatio || 1) / backingStore;
 };
 
-/**
- *
- * @param {*} props
- * @param {string} props.typedName - Typed name
- * @param {string} props.fontFamily - []
- * @param {string} props.spaceBetween - between 0 and 10 step 0.1
- * @param {string} props.startPosition - between 0 and 360
- *
- */
-const Tag = (props) => {
-  const { typedName, fontFamily, spaceBetween, startPosition } = props;
+export default function Tag(props) {
+  const { typedName, fontFamily, spaceBetween } = props;
+  let startPosition = 0;
+
+  if (props.startPosition) {
+    startPosition = props.startPosition;
+  }
+
   const ref = useRef();
 
   useEffect(() => {
@@ -32,7 +30,8 @@ const Tag = (props) => {
     const ctx = canvas.getContext('2d');
 
     // set width and height
-    const ratio = getPixelRatio(ctx);
+    // const ratio = getPixelRatio(ctx);
+    const ratio = 1;
     const width = getComputedStyle(canvas)
       .getPropertyValue('width')
       .slice(0, -2);
@@ -50,15 +49,12 @@ const Tag = (props) => {
 
     ctx.font = `bold ${fontSize}px ${fontFamily}`;
 
-    ctx.resetTransform();
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
     const rotationDone = ctx.fillTextCircle(
       typedName,
       width / 2,
       height / 2,
       radius,
-      parseInt(startPosition, 10),
+      startPosition,
       parseFloat(spaceBetween)
     );
 
@@ -74,6 +70,11 @@ const Tag = (props) => {
 
   // JSX canvas Element with the '2d' draw
   return <canvas ref={ref} style={{ width: '200px', height: '200px' }} />;
-};
+}
 
-export default Tag;
+Tag.propTypes = {
+  typedName: PropTypes.string.isRequired,
+  fontFamily: PropTypes.string.isRequired,
+  spaceBetween: PropTypes.number.isRequired,
+  startPosition: PropTypes.number,
+};
