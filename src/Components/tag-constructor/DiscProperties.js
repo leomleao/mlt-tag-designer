@@ -1,4 +1,5 @@
 import React from 'react';
+import { CustomComponents } from '../CustomSelect';
 
 export default function DiscProperties(props) {
   const {
@@ -26,25 +27,28 @@ export default function DiscProperties(props) {
 
   return (
     <div className="disc-properties">
-      <div class="form__group field">
-        <label className="form__label">
-          Name
-          <input
-            type="input"
-            className="form__field"
-            placeholder="Name"
-            id="name"
-            required
-          />
+      <CustomComponents />
+      <div className="form__group field">
+        <input
+          type="text"
+          className="form__field"
+          placeholder="Desired name:"
+          name="name"
+          id="desiredName"
+          onChange={handleTypingName}
+        />
+        <label htmlFor="desiredName" className="form__label">
+          Desired name:
         </label>
       </div>
-      <label>
-        Type desired name:
-        <input type="text" name="name" onChange={handleTypingName} />
-      </label>
-      <label>
-        Select font:
-        <select id="fontFamily" name="font" onChange={handleSelectFont}>
+      <div className="form__group field">
+        <select
+          className="form__field"
+          placeholder="Select font:"
+          name="font"
+          id="fontFamily"
+          onChange={handleSelectFont}
+        >
           <option value="serif">Serif</option>
           <option value="arial">Arial</option>
           <option value="courierNew">Courier New</option>
@@ -64,7 +68,10 @@ export default function DiscProperties(props) {
           <option value="Tekton Pro">Tekton Pro</option>
           <option value="monospace">Monospace</option>
         </select>
-      </label>
+        <label htmlFor="name" className="form__label">
+          Select font:
+        </label>
+      </div>
       <label>
         Select starting point:
         <input
