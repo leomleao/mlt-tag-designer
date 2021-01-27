@@ -1,5 +1,6 @@
 import React from 'react';
-import { CustomComponents } from '../CustomSelect';
+import { CustomComponents } from './CustomSelect';
+import TextInput from './TextInput';
 
 export default function DiscProperties(props) {
   const {
@@ -25,24 +26,14 @@ export default function DiscProperties(props) {
     onSpaceSelected(target.valueAsNumber);
   };
 
+  const { discProperties } = styles;
   return (
-    <div className="disc-properties">
-      <CustomComponents />
-      <div className="form__group field">
-        <input
-          type="text"
-          className="form__field"
-          placeholder="Desired name:"
-          name="name"
-          id="desiredName"
-          onChange={handleTypingName}
-        />
-        <label htmlFor="desiredName" className="form__label">
-          Desired name:
-        </label>
-      </div>
+    <div style={discProperties}>
+      {/* <CustomComponents /> */}
+      <TextInput onChange={handleTypingName} />
       <div className="form__group field">
         <select
+          defaultValue=""
           className="form__field"
           placeholder="Select font:"
           name="font"
@@ -97,3 +88,10 @@ export default function DiscProperties(props) {
     </div>
   );
 }
+
+const styles = {
+  discProperties: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+};

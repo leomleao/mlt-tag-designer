@@ -4,7 +4,6 @@
 /reference
 /node_modules
 /.pnp
-/mlt-tag-designer-master
 .pnp.js
 
 # testing

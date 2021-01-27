@@ -3,11 +3,12 @@ import React from 'react';
 
 export default function Header(props) {
   const { title = 'MLT Tag Designer', subtitle } = props;
+  const { h1heading, lineStyle, h3heading } = styles;
   return (
     <header>
-      <h1 style={styles.h1heading}>{title}</h1>
-      <div style={styles.lineStyle}></div>
-      {subtitle && <h3 style={styles.h3heading}>{subtitle}</h3>}
+      <h1 style={h1heading}>{title}</h1>
+      <div style={lineStyle}></div>
+      {subtitle && <h3 style={h3heading}>{subtitle}</h3>}
     </header>
   );
 }
@@ -16,10 +17,12 @@ const styles = {
   h1heading: {
     margin: '0.4em',
     fontWeight: '500',
+    fontSize: 'calc(22px + 3vmin)',
   },
   h3heading: {
     margin: '0.4em',
     fontWeight: '600',
+    fontSize: 'calc(13px + 2vmin)',
   },
   lineStyle: {
     minWidth: '300px',

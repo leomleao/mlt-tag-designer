@@ -25,7 +25,6 @@ export default function Tag(props) {
   const ref = useRef();
 
   useEffect(() => {
-    // reference to the canvas Element:
     const canvas = ref.current;
     const ctx = canvas.getContext('2d');
 

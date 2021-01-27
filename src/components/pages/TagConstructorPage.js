@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import Tag from './Tag';
-import StateViewer from './StateViewer';
-import DiscProperties from './DiscProperties';
-import Header from '../header/Header';
-import Footer from '../footer/Footer';
+import Tag from '../tag-constructor/Tag';
+import DiscProperties from '../tag-constructor/DiscProperties';
+import Header from '../Header';
+import Footer from '../Footer';
 import AppBody from '../AppBody';
 
 export default function TagConstructor() {
@@ -32,13 +31,6 @@ export default function TagConstructor() {
       <Header />
       <AppBody>
         <Tag
-          className="App-logo"
-          typedName={typedName}
-          fontFamily={fontFamily}
-          spaceBetween={spaceBetween}
-          startPosition={startPosition}
-        />
-        <StateViewer
           typedName={typedName}
           fontFamily={fontFamily}
           spaceBetween={spaceBetween}

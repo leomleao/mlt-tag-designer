@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import Loading from './Components/loading/Loading';
-import TagConstructor from './Components/tag-constructor/TagConstructor';
+import LoadingPage from './components/pages/LoadingPage';
+import TagConstructorPage from './components/pages/TagConstructorPage';
 import './styles/App.css';
 import './styles/input.css';
 
@@ -14,5 +14,5 @@ export default function App() {
     return () => clearTimeout(timer);
   }, []);
 
-  return <>{loading ? <Loading /> : <TagConstructor />}</>;
+  return <>{loading ? <LoadingPage /> : <TagConstructorPage />}</>;
 }

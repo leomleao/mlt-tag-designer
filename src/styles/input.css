@@ -1,8 +1,9 @@
 .form__group {
   position: relative;
   padding: 15px 0 0;
+  margin: auto;
   margin-top: 10px;
-  width: 50%;
+  width: 80%;
 }
 .form__field {
   font-family: inherit;
@@ -34,7 +35,7 @@
 }
 .form__field:focus {
   padding-bottom: 6px;
-  font-weight: 700;
+  font-weight: 600;
   border-width: 3px;
   border-image: linear-gradient(to right, #11998e, #38ef7d);
   border-image-slice: 1;
@@ -46,5 +47,5 @@
   transition: 0.2s;
   font-size: 1rem;
   color: #11998e;
-  font-weight: 700;
+  font-weight: 600;
 }
