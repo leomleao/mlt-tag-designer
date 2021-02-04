@@ -37,8 +37,8 @@ export default function TagConstructor() {
           startPosition={startPosition}
         />
         <DiscProperties
-          onFontSelected={handleFontInput}
           onTypedName={handleNameInput}
+          onFontSelected={handleFontInput}
           onPositionSelected={handleStartInput}
           onSpaceSelected={handleSpaceInput}
         />
