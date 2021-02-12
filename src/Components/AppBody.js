@@ -1,12 +1,16 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-export default function AppBody(props) {
-  return <div style={styles.appBody}>{props.children}</div>;
+export default function AppBody({ appBodyHeight, children }) {
+  return (
+    <div style={{ height: `${appBodyHeight}vh`, ...styles.appBody }}>
+      {children}
+    </div>
+  );
 }
 
 const styles = {
   appBody: {
-    height: '74vh',
     backgroundColor: '#fff',
     display: 'flex',
     flexDirection: 'column',
@@ -15,4 +19,9 @@ const styles = {
     fontSize: 'calc(10px + 2vmin)',
     color: 'rgb(241, 226, 13)',
   },
+};
+
+AppBody.propTypes = {
+  appBodyHeight: PropTypes.number.isRequired,
+  children: PropTypes.node.isRequired,
 };

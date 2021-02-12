@@ -1,13 +1,18 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
+import { useAuth } from '../../helpers/use-auth';
 
-export default function SignInPage({ googleSignIn }) {
+export default function SignInPage() {
+  const auth = useAuth();
   let location = useLocation();
-  let { from } = location.state;
-  console.log(from.pathname);
+  let history = useHistory();
+  let { from } = location.state || { from: { pathname: '/' } };
   return (
     <>
-      <button className="sign-in" onClick={googleSignIn}>
+      <button
+        className="sign-in"
+        onClick={() => auth.googleSignIn(() => history.push(from.pathname))}
+      >
         Sign in with Google
       </button>
     </>

@@ -1,11 +1,22 @@
 import React from 'react';
-// import { styles } from '../../styles/styles';
+import PropTypes from 'prop-types';
 
 export default function Header(props) {
-  const { title = 'MLT Tag Designer', subtitle = '', children } = props;
+  const {
+    title = 'M.L.T. Designs',
+    subtitle = '',
+    children,
+    headerHeight,
+  } = props;
   const { h1heading, lineStyle, h3heading } = styles;
   return (
-    <header style={styles.header}>
+    <header
+      style={{
+        height: `${headerHeight * 0.8}vh`,
+        marginTop: `${headerHeight * 0.2}vh`,
+        ...styles.header,
+      }}
+    >
       <div style={styles.divFlexRow}>{children}</div>
       <div style={styles.divFlexColumn}>
         <h1 style={h1heading}>{title}</h1>
@@ -16,6 +27,13 @@ export default function Header(props) {
   );
 }
 
+Header.propTypes = {
+  headerHeight: PropTypes.number.isRequired,
+  title: PropTypes.string,
+  subtitle: PropTypes.string,
+  children: PropTypes.node,
+};
+
 const styles = {
   divFlexColumn: {
     display: 'flex',
@@ -23,12 +41,16 @@ const styles = {
     flexDirection: 'column',
   },
   divFlexRow: {
+    minWidth: '270px',
+    maxWidth: '520px',
+    width: '36vw',
+    height: '2vh',
     display: 'flex',
-    alignItems: 'center',
+    justifyContent: 'space-between',
+    alignItems: 'stretch',
+    flexDirection: 'row-reverse',
   },
   header: {
-    height: '17vh',
-    marginTop: '3vh',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-start',
@@ -43,8 +65,8 @@ const styles = {
   },
   h3heading: {
     margin: '0.4em',
-    fontWeight: '600',
-    fontSize: 'calc(13px + 2vmin)',
+    fontWeight: '450',
+    fontSize: 'calc(13px + 1.8vmin)',
   },
   lineStyle: {
     minWidth: '300px',
