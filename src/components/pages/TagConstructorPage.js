@@ -6,6 +6,12 @@ import Footer from '../Footer';
 import AppBody from '../AppBody';
 
 export default function TagConstructor() {
+  const heights = {
+    header: 21,
+    appBody: 73,
+    footer: 6,
+  };
+
   const [typedName, setTypedName] = useState('');
   const handleNameInput = (newName) => {
     setTypedName(newName);
@@ -28,8 +34,8 @@ export default function TagConstructor() {
 
   return (
     <>
-      <Header />
-      <AppBody>
+      <Header headerHeight={heights.header} />
+      <AppBody appBodyHeight={heights.appBody}>
         <Tag
           typedName={typedName}
           fontFamily={fontFamily}
@@ -43,7 +49,7 @@ export default function TagConstructor() {
           onSpaceSelected={handleSpaceInput}
         />
       </AppBody>
-      <Footer />
+      <Footer footerHeight={heights.footer} />
     </>
   );
 }

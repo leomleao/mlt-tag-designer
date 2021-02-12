@@ -95,7 +95,7 @@ export default function HomePage() {
         <TagDisplay />
         <Button
           classNames="btn purple darken-2"
-          onClick={() => console.log('object')}
+          onClick={() => history.push('/tag-constructor')}
           icon={''}
           text={'Design your tag'}
         />

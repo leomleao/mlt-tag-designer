@@ -34,7 +34,7 @@ export default function DiscProperties(props) {
       <div className="form__group field">
         <select
           defaultValue=""
-          className="form__field"
+          className="browser-default form__field"
           placeholder="Select font:"
           name="font"
           id="fontFamily"
