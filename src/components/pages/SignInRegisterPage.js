@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useAuth } from '../../helpers/use-auth';
 
-export default function SignInPage() {
+export default function SignInRegisterPage() {
   const auth = useAuth();
   let location = useLocation();
   let history = useHistory();

@@ -40,15 +40,24 @@ export default function HomePage() {
 
   return (
     <>
-      <Header headerHeight={heights.header}>
+      <Header style={{ height: `${heights.header}vh` }}>
         <Button onClick={handleOpenModal} icon={'settings'} text={''} />
         <Modal
+          styles={{
+            modal: { position: 'absolute', right: '30%', top: '0px' },
+          }}
           open={showModal}
           onClose={handleCloseModal}
           showCloseIcon={false}
         >
           {user ? (
             <div style={styles.modalFlexColumn}>
+              {user.displayName && (
+                <p>
+                  Hello <br />
+                  {user.displayName}!
+                </p>
+              )}
               <Button
                 onClick={() => history.push('/user')}
                 icon={'account_box'}
@@ -91,7 +100,7 @@ export default function HomePage() {
           )}
         </Modal>
       </Header>
-      <AppBody appBodyHeight={heights.appBody}>
+      <AppBody style={{ height: `${heights.appBody}vh` }}>
         <TagDisplay />
         <Button
           classNames="btn purple darken-2"
@@ -99,16 +108,8 @@ export default function HomePage() {
           icon={''}
           text={'Design your tag'}
         />
-        {user ? (
-          <>
-            <h3>Hello {user.displayName}!</h3>
-            <p>User ID: {user.uid}</p>
-          </>
-        ) : (
-          '<></>'
-        )}
       </AppBody>
-      <Footer footerHeight={heights.footer}>
+      <Footer style={{ height: `${heights.footer}vh` }}>
         <Button onClick={() => history.push('/')} text={'Home'} />
         <Button
           onClick={() => history.push('/tag-constructor')}

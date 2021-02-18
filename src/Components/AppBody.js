@@ -1,12 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function AppBody({ appBodyHeight, children }) {
-  return (
-    <div style={{ height: `${appBodyHeight}vh`, ...styles.appBody }}>
-      {children}
-    </div>
-  );
+export default function AppBody({ style = {}, children }) {
+  return <div style={{ ...style, ...styles.appBody }}>{children}</div>;
 }
 
 const styles = {
@@ -22,6 +18,6 @@ const styles = {
 };
 
 AppBody.propTypes = {
-  appBodyHeight: PropTypes.number.isRequired,
+  style: PropTypes.object,
   children: PropTypes.node.isRequired,
 };

@@ -4,8 +4,12 @@ import DiscProperties from '../tag-constructor/DiscProperties';
 import Header from '../Header';
 import Footer from '../Footer';
 import AppBody from '../AppBody';
+import Button from '../Button';
+import { useHistory } from 'react-router-dom';
 
 export default function TagConstructor() {
+  let history = useHistory();
+
   const heights = {
     header: 21,
     appBody: 73,
@@ -34,8 +38,15 @@ export default function TagConstructor() {
 
   return (
     <>
-      <Header headerHeight={heights.header} />
-      <AppBody appBodyHeight={heights.appBody}>
+      <Header style={{ height: `${heights.header}vh` }}>
+        <Button onClick={() => {}} icon={'history'} text={''} />
+        <Button
+          onClick={() => history.push('/')}
+          icon={'navigate_before'}
+          text={''}
+        />
+      </Header>
+      <AppBody style={{ height: `${heights.appBody}vh` }}>
         <Tag
           typedName={typedName}
           fontFamily={fontFamily}
@@ -49,7 +60,7 @@ export default function TagConstructor() {
           onSpaceSelected={handleSpaceInput}
         />
       </AppBody>
-      <Footer footerHeight={heights.footer} />
+      <Footer style={{ height: `${heights.footer}vh` }} />
     </>
   );
 }

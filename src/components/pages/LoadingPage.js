@@ -12,15 +12,15 @@ export default function LoadingPage() {
 
   return (
     <>
-      <Header subtitle={'Loading'} headerHeight={heights.header} />
-      <AppBody appBodyHeight={heights.appBody}>
+      <Header style={{ height: `${heights.header}vh` }} />
+      <AppBody style={{ height: `${heights.appBody}vh` }}>
         <img
           style={{ margin: 'auto', width: '20vw', maxWidth: '200px' }}
           src={'loading.gif'}
           alt="loading..."
         />
       </AppBody>
-      <Footer footerHeight={heights.footer} />
+      <Footer style={{ height: `${heights.footer}vh` }} />
     </>
   );
 }

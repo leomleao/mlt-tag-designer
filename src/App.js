@@ -9,7 +9,7 @@ import {
 import TagContructorPage from './components/pages/TagConstructorPage';
 import LoadingPage from './components/pages/LoadingPage';
 import HomePage from './components/pages/HomePage';
-import SignInPage from './components/pages/SignInPage';
+import SignInRegisterPage from './components/pages/SignInRegisterPage';
 
 import { ProvideAuth } from './helpers/use-auth.js';
 import { useAuth } from './helpers/use-auth.js';
@@ -42,10 +42,10 @@ export default function App() {
                   }}
                 />
               ) : (
-                <SignInPage />
+                <SignInRegisterPage />
               )}
             </Route>
-            <Route path="/register">
+            <Route path="/login/register">
               {auth ? (
                 <Redirect
                   to={{
@@ -53,7 +53,7 @@ export default function App() {
                   }}
                 />
               ) : (
-                <SignInPage />
+                <SignInRegisterPage />
               )}
             </Route>
             <Route path="/tag-constructor">

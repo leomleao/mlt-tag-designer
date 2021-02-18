@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function Header(props) {
-  const {
-    title = 'M.L.T. Designs',
-    subtitle = '',
-    children,
-    headerHeight,
-  } = props;
+export default function Header({
+  title = 'M.L.T. Designs',
+  subtitle = '',
+  children,
+  style,
+}) {
+  const headerHeight = parseInt(style.height.slice(0, -2), 10);
   const { h1heading, lineStyle, h3heading } = styles;
   return (
     <header
@@ -28,7 +28,7 @@ export default function Header(props) {
 }
 
 Header.propTypes = {
-  headerHeight: PropTypes.number.isRequired,
+  headerHeight: PropTypes.object,
   title: PropTypes.string,
   subtitle: PropTypes.string,
   children: PropTypes.node,

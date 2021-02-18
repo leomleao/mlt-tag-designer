@@ -37,6 +37,7 @@ export default function TagDisplay() {
 
 const styles = {
   divFlexRow: {
+    margin: '25px',
     minWidth: '270px',
     maxWidth: '520px',
     width: '36vw',
