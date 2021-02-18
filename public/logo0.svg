@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" viewBox="0 0 640 640" width="638" height="638">
+  <defs>
+    <path d="M570 320C570 457.98 457.98 570 320 570C182.02 570 70 457.98 70 320C70 182.02 182.02 70 320 70C457.98 70 570 182.02 570 320Z" id="e28WAzgGcZ"></path>
+    <path d="M303.2 383.14L292.76 386.53L352.32 570L362.76 566.61L303.2 383.14Z" id="b20Tj3ppDW"></path>
+    <path d="M390 320C390 358.63 358.63 390 320 390C281.37 390 250 358.63 250 320C250 281.37 281.37 250 320 250C358.63 250 390 281.37 390 320Z" id="a55JjO4N4l"></path>
+  </defs>
+  <g><g>
+    <g><g>
+      <use xlink:href="#e28WAzgGcZ" opacity="1" fill-opacity="0" stroke="#000000" stroke-width="20" stroke-opacity="1"></use>
+    </g></g>
+    <g>
+      <use xlink:href="#b20Tj3ppDW" opacity="1" fill="#000000" fill-opacity="1"></use>
+    </g>
+    <g><g>
+      <use xlink:href="#a55JjO4N4l" opacity="1" fill-opacity="0" stroke="#000000" stroke-width="20" stroke-opacity="1"></use>
+    </g></g>
+  </g></g>
+</svg>
