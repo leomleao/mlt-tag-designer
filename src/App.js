@@ -1,32 +1,65 @@
-import React, { Component } from 'react';
-import './App.css';
-import Tag from './Components/Tag'
- 
-class App extends Component {
-  constructor(props) {
-    super(props);
- 
-    this.state = {
-      name: "",
-    };
-  }
- 
-  toggleShow = () => {
-    this.setState(state => ({ isShow: !state.isShow }));
-  };
- 
-  render() { 
-    return (
-      <div className="App">
-        <header className="App-header">
-          <Tag className="App-logo" name={this.state.name}/>
-            <label>
-              <input type="text" name="name" onChange={e => this.setState({ name: e.target.value })} />
-            </label>          
-        </header>
-      </div>      
-    );
-  }
+// libs
+import React from 'react';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+
+// high order comppnents
+import ParentTagContructor from './components/Parents/ParentTagConstructor';
+import ParentUser from './components/Parents/ParentUser';
+
+// pages
+import HomePage from './components/pages/HomePage';
+import LoginPage from './components/pages/LoginPage';
+import RegisterPage from './components/pages/RegisterPage';
+import HomeContactForm from './components/pages/HomeContactForm';
+
+// providers
+import { ProvideAuth, useAuth } from './helpers/use-auth.js';
+import { CookiesProvider } from 'react-cookie';
+
+export default function App() {
+  const auth = useAuth();
+  return (
+    <CookiesProvider>
+      <ProvideAuth>
+        <BrowserRouter>
+          <Switch>
+            <Route path="/login/register">
+              {auth ? (
+                <Redirect
+                  to={{
+                    pathname: '/',
+                  }}
+                />
+              ) : (
+                <RegisterPage />
+              )}
+            </Route>
+            <Route path="/login">
+              {auth ? (
+                <Redirect
+                  to={{
+                    pathname: '/',
+                  }}
+                />
+              ) : (
+                <LoginPage />
+              )}
+            </Route>
+            <Route path="/tag-constructor">
+              <ParentTagContructor />
+            </Route>
+            <Route path="/contact-form">
+              <HomeContactForm />
+            </Route>
+            <Route path="/user">
+              <ParentUser />
+            </Route>
+            <Route path="/">
+              <HomePage />
+            </Route>
+          </Switch>
+        </BrowserRouter>
+      </ProvideAuth>
+    </CookiesProvider>
+  );
 }
- 
-export default App;
