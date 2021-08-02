@@ -3,7 +3,7 @@ import React from 'react';
 
 // Helpers
 import { useHistory, useLocation } from 'react-router-dom';
-// import { useOrderManager } from '../helpers/use-order';
+import { useOrderManager } from '../helpers/use-order';
 import { useAuth } from '../helpers/use-auth';
 
 // style Components
@@ -11,7 +11,7 @@ import Header from '../components/styleComponents/Header';
 import AppBody from '../components/styleComponents/AppBody';
 import Button from '../components/styleComponents/Button';
 import Footer from '../components/styleComponents/Footer';
-// import AddressToShipCard from '../components/styleComponents/AddressToShipCard';
+import AddressToShipCard from '../components/styleComponents/AddressToShipCard';
 
 // functional Components
 import SummaryTable from '../components/styleComponents/SummaryTable';
@@ -20,15 +20,20 @@ import SummaryTable from '../components/styleComponents/SummaryTable';
 // Styles
 import styles from '../styles/styles';
 
-export default function TagPaymentPage({ order, standards, changeOrder }) {
-  const auth = useAuth();
+export default function TagPaymentPage() {
   const location = useLocation();
   const history = useHistory();
   const { from } = location.state || { from: '/tag-constructor/shipping' };
-  const { tag_std_price, shipping_price } = standards;
 
-  const [creditSelected, setCreditSelected] = React.useState(false);
-  const [paypalSelected, setPaypalSelected] = React.useState(false);
+  const orderManager = useOrderManager();
+  const { order } = orderManager;
+  const { purchase_units: [{ shipping: { address } = {} } = {}] = [] } = order;
+
+  const handleApprovedPayment = (data) => {
+    localStorage.removeItem('order');
+    console.log(data);
+    history.push('/tag-constructor/submited');
+  };
 
   return (
     <>
@@ -36,61 +41,12 @@ export default function TagPaymentPage({ order, standards, changeOrder }) {
         <Button onClick={() => history.push('/')} icon={'home'} />
         <Button onClick={() => history.push(from)} icon={'navigate_before'} />
       </Header>
-
       <AppBody>
+        <SummaryTable order={order} shipping />
         <div style={styles.cardParent}>
-          <div style={{ ...styles.card, alignItems: 'flex-start' }}>
-            <Button
-              onClick={() => {
-                setCreditSelected(true);
-                setPaypalSelected(false);
-              }}
-              icon={
-                creditSelected
-                  ? 'radio_button_checked'
-                  : 'radio_button_unchecked'
-              }
-            >
-              CreditCard
-            </Button>
-          </div>
+          <AddressToShipCard address={address} />
         </div>
-        <div style={styles.cardParent}>
-          <div style={{ ...styles.card, alignItems: 'flex-start' }}>
-            <Button
-              onClick={() => {
-                setPaypalSelected(true);
-                setCreditSelected(false);
-              }}
-              icon={
-                paypalSelected
-                  ? 'radio_button_checked'
-                  : 'radio_button_unchecked'
-              }
-            >
-              Paypal
-            </Button>
-          </div>
-        </div>
-        <SummaryTable
-          TAGs={order.TAGs}
-          shippingPrice={shipping_price}
-          tag_std_price={tag_std_price}
-        />
-        <div style={styles.divFlexRow}>
-          <Button
-            style={styles.btnFilledPurple}
-            onClick={() => history.push('/tag-constructor/shipping')}
-          >
-            Shipping
-          </Button>
-          <Button
-            style={styles.btnFilledPurple}
-            onClick={() => history.push('/tag-constructor/submited')}
-          >
-            Pay
-          </Button>
-        </div>
+        {/* <PaypalButton order={order} onApprove={handleApprovedPayment} /> */}
       </AppBody>
       <Footer defaultButtons />
     </>
