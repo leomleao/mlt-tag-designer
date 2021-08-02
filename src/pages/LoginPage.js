@@ -9,18 +9,20 @@ import { useHistory, useLocation } from 'react-router-dom';
 import Button from '../components/styleComponents/Button';
 import Footer from '../components/styleComponents/Footer';
 import Input from '../components/styleComponents/Input';
-// import SettingsButton from '../components/styleComponents/SettingsButton';
-// import LoadingComponent from '../components/styleComponents/LoadingComponent';
+import SettingsButton from '../components/styleComponents/SettingsButton';
+import LoadingComponent from '../components/styleComponents/LoadingComponent';
 
 // Styles
 import styles from '../styles/styles';
 
-export default function LoginPage() {
+export default function LoginPage({ showMessage }) {
   const auth = useAuth();
-
+  const history = useHistory();
   const location = useLocation();
   const { from } = location.state || { from: { pathname: '/' } };
-  const history = useHistory();
+  const { email: receivedEmail } = location.state || { email: '' };
+
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const userReducer = (state, action) => {
     switch (action.type) {
@@ -37,6 +39,11 @@ export default function LoginPage() {
     password: '',
   });
 
+  React.useEffect(() => {
+    if (receivedEmail)
+      dispatchUserInput({ type: 'email', value: receivedEmail });
+  }, [receivedEmail]);
+
   const signInWithEmail = () => {
     const { email, password } = userInput;
     auth
@@ -46,24 +53,30 @@ export default function LoginPage() {
         history.push(from.pathname);
       })
       .catch((err) => {
-        handleShowMessage(err);
+        showMessage({
+          ...err,
+          values: { email: email, callback: redirectToRegister },
+        });
       });
   };
 
   const signInWithGoogle = () => {
+    setIsLoading(true);
     auth.signInWithGooglePopup(() => {
+      setIsLoading(false);
       history.push(from.pathname);
     });
   };
 
   const handleForgotPassword = () => {
+    const { email } = userInput;
     auth
-      .sendPasswordResetEmail(userInput.email)
+      .sendPasswordResetEmail(email)
       .then((res) => {
-        handleShowMessage(res);
+        showMessage({ ...res, values: { email: email } });
       })
       .catch((err) => {
-        handleShowMessage(err);
+        showMessage({ ...err, values: { email: email } });
       });
   };
 
@@ -75,58 +88,24 @@ export default function LoginPage() {
     history.push(userLocation);
   };
 
-  const modalReducer = (_, action) => {
-    switch (action.type) {
-      case 'trigger':
-        const { method, message, value, callback } = action;
-        return { showModal: true, method, message, value, callback };
-      case 'response':
-        if (action.callback) {
-          action.callback(action.value);
-        }
-        return { showModal: false };
-      default:
-        throw new Error();
-    }
-  };
-
-  const [modalState, modalDispatch] = React.useReducer(modalReducer, {
-    showModal: false,
-    method: null,
-    message: null,
-    value: null,
-    callback: null,
-  });
-
-  const handleShowMessage = (props) => {
-    const { code, message } = props;
-    switch (code) {
-      case 'auth/user-not-found':
-        modalDispatch({
-          type: 'trigger',
-          method: 'confirm',
-          message: `${message} Do you want to register insted? `,
-          value: userInput.email,
-          callback: redirectToRegister,
-        });
-        break;
-      case 'auth/invalid-email':
-      case 'auth/wrong-password':
-        modalDispatch({ type: 'trigger', method: 'alert', message });
-        break;
-      case 'auth/cancelled-popup-request':
-        break;
-      default:
-        console.log(props);
-        console.log({ code, message });
-        break;
-    }
-  };
-
   return (
     <>
-      {/* <MessageModal state={modalState} dispatch={modalDispatch} /> */}
       <header style={styles.loginHeader}>
+        <div
+          style={{
+            minWidth: '270px',
+            maxWidth: '450px',
+            width: '80%',
+            height: '2vh',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'stretch',
+            flexDirection: 'row-reverse',
+          }}
+        >
+          <SettingsButton />
+          <Button onClick={() => history.push('/')} icon={'navigate_before'} />
+        </div>
         <img
           src={'logoLogin.svg'}
           alt={''}
@@ -141,63 +120,73 @@ export default function LoginPage() {
         <span style={styles.loginHeading2}>
           Hi there! Nice to see you again
         </span>
-        <Input
-          type="email"
-          label="Email"
-          value={userInput.email}
-          onChange={(newEmail) =>
-            dispatchUserInput({ type: 'email', value: newEmail })
-          }
-        />
-        <Input
-          type="password"
-          label="Password"
-          value={userInput.password}
-          onChange={(newPassword) =>
-            dispatchUserInput({ type: 'password', value: newPassword })
-          }
-        />
-        <Button
-          style={styles.btnFilledPurple}
-          onClick={signInWithEmail}
-          icon={''}
-        >
-          Login
-        </Button>
-        <div style={styles.divFlexRow}>
-          <Button style={styles.btnUnfilledGray} onClick={handleForgotPassword}>
-            Forgot Password?
-          </Button>
-          <Button
-            style={styles.btnUnfilledColor}
-            onClick={() => history.push('/login/register')}
-          >
-            Register
-          </Button>
-        </div>
-        <div style={{ position: 'relative' }}>
-          <img
-            src={'google.jpg'}
-            alt={''}
-            style={{
-              height: '36px',
-              width: '36px',
-              position: 'absolute',
-              left: '0',
-              bottom: '0',
-              margin: '25px 0px 5px 0px',
-              border: 'solid 1px #520369',
-              borderRadius: '5px',
-            }}
-          />
-          <Button
-            style={styles.btnFilledPurple}
-            onClick={signInWithGoogle}
-            icon={''}
-          >
-            sign in with Google
-          </Button>
-        </div>
+        {isLoading ? (
+          <LoadingComponent height={'20vh'} />
+        ) : (
+          <>
+            <Input
+              type="email"
+              label="Email"
+              value={userInput.email}
+              onChange={(newEmail) =>
+                dispatchUserInput({ type: 'email', value: newEmail })
+              }
+            />
+            <Input
+              type="password"
+              label="Password"
+              value={userInput.password}
+              onChange={(newPassword) =>
+                dispatchUserInput({ type: 'password', value: newPassword })
+              }
+              regExpPattern={/[\w\W]{6}/gm}
+            />
+            <Button
+              style={styles.btnFilledPurple}
+              onClick={signInWithEmail}
+              icon={''}
+            >
+              Login
+            </Button>
+            <div style={styles.divFlexRow}>
+              <Button
+                style={styles.btnUnfilledGray}
+                onClick={handleForgotPassword}
+              >
+                Forgot Password?
+              </Button>
+              <Button
+                style={styles.btnUnfilledColor}
+                onClick={() => history.push('/login/register')}
+              >
+                Register
+              </Button>
+            </div>
+            <div style={{ position: 'relative' }}>
+              <img
+                src={'../google.jpg'}
+                alt={''}
+                style={{
+                  height: 'calc(29px + 1vh)',
+                  position: 'absolute',
+                  left: '0',
+                  bottom: '0',
+                  padding: '0px',
+                  margin: '25px 0px 5px 0px',
+                  border: 'solid 1px #520369',
+                  borderRadius: '5px',
+                }}
+              />
+              <Button
+                style={styles.btnFilledPurple}
+                onClick={signInWithGoogle}
+                icon={''}
+              >
+                sign in with Google
+              </Button>
+            </div>
+          </>
+        )}
       </div>
       <Footer defaultButtons />
     </>
