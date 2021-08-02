@@ -29,7 +29,6 @@
 - [ ] Validate email to send password
 - [ ] Login when user not found
 - [ ] check validation to create new user
-- [ ] network connection error
 - [ ] auth/popup-closed-by-user
 
 ### `RegisterPage`
@@ -64,19 +63,18 @@
 ### `TagShipping`
 
 - [x] clear code
-- [ ] `<p>you must be logged in</p>` alert even if logged
+- [x] `<p>you must be logged in</p>` alert even if logged
 - [x] Validate all addresses
 - [x] Make address class
 - [x] Add registrered post option
 
 ### `TagPayment`
 
-- [ ] clear code
-- [ ] summary needs to show shipping fee also
-- [ ] create pay pal function
-- [ ] create credit card function
+- [x] clear code
+- [x] summary needs to show shipping fee also
+- [x] create pay pal function
+- [ ] create credit card function - will use Paypal function
 - [ ] setup the client-id=CLIENT_ID and currency=--- in the html sdk
-- [ ] onShippingChange change shipping address
 
 ### `TagSubmitted`
 
