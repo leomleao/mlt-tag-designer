@@ -32,25 +32,6 @@ export const useFirestore = () => {
 
   /**
    *
-   * GET    /users/all
-   */
-  const getAllUsers = async () => {
-    console.log('getAllUsers: NOT DEVELOPED');
-  };
-  // End getAllUsers
-
-  /**
-   *
-   * GET    /users?uid=
-   * @param {String} uid
-   */
-  const getUserByUid = async (uid) => {
-    console.log('getUserByUid: NOT DEVELOPED');
-  };
-  // End getUserByUid
-
-  /**
-   *
    * PUT    /users?uid= Field to Update
    * @param {String} uid
    * @param {Object} update
@@ -66,26 +47,6 @@ export const useFirestore = () => {
   };
   // End updateUserByUid
 
-  /**
-   *
-   * DELETE /users?uid=
-   * @param {String} uid
-   */
-  const deleteUserByUid = async (uid) => {
-    console.log('deleteUserByUid: NOT DEVELOPED');
-  };
-  // End deleteUserByUid
-
-  /**
-   *
-   * POST   /users/address?uid=
-   * @param {String} uid
-   * @param {Object} address
-   */
-  const postUserNewAddressesByUid = async (uid, address) => {
-    console.log('postUserNewAddressesByUid: NOT DEVELOPED');
-  };
-  // End postUserNewAddressesByUid
 
   /**
    *
@@ -185,13 +146,6 @@ export const useFirestore = () => {
   const updateOrdersById = async (id, update) => {};
   // End updateOrdersById
 
-  /**
-   *
-   * DELETE /orders?id=
-   * @param {String} id
-   */
-  const deleteOrdersById = async (id) => {};
-  // End deleteOrdersById
 
   /**
    *
