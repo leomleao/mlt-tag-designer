@@ -10,7 +10,7 @@ import Header from '../components/styleComponents/Header';
 import AppBody from '../components/styleComponents/AppBody';
 import Button from '../components/styleComponents/Button';
 import Footer from '../components/styleComponents/Footer';
-// import AddressCardParent from '../components/AddressCardParent';
+import AddressCardParent from '../components/AddressCardParent';
 import LoadingComponent from '../components/styleComponents/LoadingComponent';
 
 // functional Components
@@ -20,166 +20,60 @@ import SettingsButton from '../components/styleComponents/SettingsButton';
 import styles from '../styles/styles';
 
 // Validations
-// import { Address } from '../helpers/validations/Address';
+import { Address } from '../helpers/validations/Address';
 
 // DataBank
-// import { useFirestore } from '../service/use-firestore';
+import { useFirestore } from '../service/use-firestore';
 
-export default function AddressesPage() {
+export default function AddressesPage({ showMessage }) {
   const location = useLocation();
   const history = useHistory();
   const { from } = location.state || { from: '/' };
 
-  const [loading, setLoading] = React.useState(true);
+  const firestore = useFirestore();
 
   // get user addresses
   const { user } = useAuth();
 
   const [userAddresses, setUserAddresses] = React.useState(null);
 
-  // const getAddresses = async () => {
-  //   try {
-  //     const { data } = await api.getUserAddressesByUid(user.uid);
-  //     const addressesWithoutDetails = data.addresses.map((address) => {
-  //       return {
-  //         ...address,
-  //         detailed: false,
-  //       };
-  //     });
-  //     setUserAddresses(addressesWithoutDetails);
-  //     setLoading(false);
-  //   } catch (error) {
-  //     console.error('Cannot retrive addresses data' + error);
-  //   }
-  // };
-  // React.useEffect(() => {
-  //   if (user) {
-  //     if (!userAddresses) {
-  //       getAddresses();
-  //     }
-  //   }
-  // }, [userAddresses, user]);
+  const getAddresses = async () => {
+    try {
+      const addresses = await firestore.getUserAddressesByUid(user.uid);
+      const addressesWithoutDetails = addresses.map((address) => {
+        return {
+          ...address,
+          detailed: false,
+          loading: false,
+        };
+      });
+      setUserAddresses(addressesWithoutDetails);
+    } catch (error) {
+      console.error('Cannot retrive addresses data' + error);
+    }
+  };
+  React.useEffect(() => {
+    if (user) {
+      getAddresses();
+    }
+  }, [user]);
   // End get user addresses
 
   const addNewAddress = () => {
     setUserAddresses((prevState) => {
-      const blankAddress = {
-        firstName: '',
-        lastName: '',
-        street: '',
-        country: '',
-        city: '',
-        postalCode: '',
-        saved: false,
-        detailed: true,
-      };
-      return [...prevState, blankAddress];
+      return [...prevState, { address: new Address(), saved: false }];
     });
-  };
-
-  const handleDelete = (index) => {
-    const newAddressArray = userAddresses.filter((_, i) => {
-      return i !== index;
-    });
-
-    // firestore
-    //   .updateUserAdresses(uid, newAddressArray)
-    //   .then((data) => {
-    //     // UserAddress updated.
-    //     setUserAddresses(data);
-    //   })
-    //   .catch((error) => {
-    //     // An error happened.
-    //     console.log(error.code);
-    //     console.log(error.message);
-    //   });
-  };
-
-  const setDefault = (index) => {
-    const newAddressArray = Array.from(userAddresses);
-    const newDefaultAddress = newAddressArray.splice(index, 1);
-    newAddressArray.unshift(newDefaultAddress[0]);
-
-    // firestore
-    //   .updateUserAdresses(uid, newAddressArray)
-    //   .then((data) => {
-    //     // UserAddress updated.
-    //     setUserAddresses(data);
-    //   })
-    //   .catch((error) => {
-    //     // An error happened.
-    //     console.log(error.code);
-    //     console.log(error.message);
-    //   });
-  };
-
-  const handleSave = (index) => {
-    const propertyArray = [];
-    for (const property in userAddresses[index]) {
-      if (userAddresses[index][property] === '') {
-        propertyArray.push(property);
-      }
-    }
-    if (propertyArray.length > 0) {
-      alert(
-        `You must fill all fields to save.\n
-${propertyArray.join(', ')} must be filled`
-      );
-      return;
-    }
-
-    const newAddressArray = Array.from(userAddresses);
-    newAddressArray[index].saved = true;
-
-    // firestore
-    //   .updateUserAdresses(uid, newAddressArray)
-    //   .then((data) => {
-    //     // UserAddress updated.
-    //     setUserAddresses(data);
-    //   })
-    //   .catch((error) => {
-    //     // An error happened.
-    //     console.log(error.code);
-    //     console.log(error.message);
-    //   });
-  };
-
-  const handleChange = (newAddress, index) => {
-    setUserAddresses((prevState) => {
-      const newAddressArray = Array.from(prevState);
-
-      newAddressArray[index] = newAddress;
-
-      return newAddressArray;
-    });
-  };
-
-  const handleShowDetails = (index) => {
-    setUserAddresses((prevState) => {
-      const newAddressArray = Array.from(prevState);
-      newAddressArray[index].detailed = true;
-      return newAddressArray;
-    });
-  };
-  const handleHideDetails = (index) => {
-    if (!userAddresses[index].saved) {
-      alert('You cannot hide unsaved changes');
-    } else {
-      setUserAddresses((prevState) => {
-        const newAddressArray = Array.from(prevState);
-        newAddressArray[index].detailed = false;
-        return newAddressArray;
-      });
-    }
   };
 
   const goBack = () => {
-    if (
-      userAddresses.some(({ saved }) => {
-        return saved === false;
-      })
-    ) {
-      alert('You cannot leave with unsaved changes');
+    if (userAddresses.some(({ saved }) => !saved)) {
+      const error = {
+        code: 'address/leave-unsaved',
+        message:
+          'Leave this page will lost unsaved changes. Do you want leave anyway?',
+        values: { callback: () => history.push(from) },
+      };
+      showMessage(error);
     } else {
       history.push(from);
     }
@@ -187,122 +81,18 @@ ${propertyArray.join(', ')} must be filled`
 
   return (
     <>
-      {loading ? (
-        <LoadingComponent />
-      ) : (
-        <>
-          <Header subtitle="My Addresses">
-            <SettingsButton />
-            <Button onClick={goBack} icon={'navigate_before'} />
-          </Header>
-          <AppBody>
-            {userAddresses.map((address, index) => {
-              return (
-                <div key={`A${index}`}>
-                  {address.detailed ? (
-                    <div style={styles.cardParent}>
-                      {/* <AddressCard
-                        key={`B${index}`}
-                        address={address}
-                        index={index}
-                        handleDeleteClick={handleDelete}
-                        handleSaveClick={handleSave}
-                        handleChange={handleChange}
-                        setDefault={setDefault}
-                      /> */}
-                      <div style={styles.divFlexRow}>
-                        <Button
-                          onClick={() => handleHideDetails(index)}
-                          icon={'info'}
-                          style={{
-                            ...styles.btnUnfilledGray,
-                            fontSize: 'calc(6px + 0.8vmin)',
-                            margin: '10px 0px',
-                          }}
-                        >
-                          Hide details
-                        </Button>
-                      </div>
-                    </div>
-                  ) : (
-                    <div style={styles.cardParent}>
-                      <div>
-                        <div style={{ ...styles.divFlexRow, width: '100%' }}>
-                          {index === undefined ? (
-                            <span
-                              style={{ alignSelf: 'center', margin: '10px' }}
-                            >
-                              Address Details
-                            </span>
-                          ) : index === 0 ? (
-                            <span
-                              style={{ alignSelf: 'center', margin: '10px' }}
-                            >
-                              Default Address
-                            </span>
-                          ) : (
-                            <div style={styles.divFlexRow}>
-                              <span
-                                style={{ alignSelf: 'center', margin: '10px' }}
-                              >
-                                Address {index + 1}
-                              </span>
-                              {setDefault !== undefined ? (
-                                <Button
-                                  onClick={() => setDefault(index)}
-                                  icon={''}
-                                  style={{
-                                    ...styles.btnUnfilledGray,
-                                    border: '1px solid #7a7a7a',
-                                    borderRadius: '5px',
-                                    padding: '0px 5px',
-                                    margin: '7px',
-                                    fontSize: 'calc(7px + 0.8vmin)',
-                                  }}
-                                >
-                                  Set Default
-                                </Button>
-                              ) : (
-                                ''
-                              )}
-                            </div>
-                          )}
-                          {index !== 0 && (
-                            <Button
-                              onClick={() => handleDelete(index)}
-                              icon={'delete_forever'}
-                            />
-                          )}
-                        </div>
-                        <div style={styles.card}>
-                          {/* <Input
-                            type="text"
-                            label="Street:"
-                            value={address.street}
-                            onChange={() => {
-                              console.log('street');
-                            }}
-                          /> */}
-                        </div>
-                      </div>
-                      <div style={styles.divFlexRow}>
-                        <Button
-                          onClick={() => handleShowDetails(index)}
-                          icon={'info'}
-                          style={{
-                            ...styles.btnUnfilledGray,
-                            fontSize: 'calc(6px + 0.8vmin)',
-                            margin: '10px 0px',
-                          }}
-                        >
-                          Show details
-                        </Button>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+      <Header subtitle="My Addresses">
+        <SettingsButton />
+        <Button onClick={goBack} icon={'navigate_before'} />
+      </Header>
+      <AppBody>
+        {userAddresses ? (
+          <>
+            <AddressCardParent
+              userAddresses={userAddresses}
+              setUserAddresses={setUserAddresses}
+              showMessage={showMessage}
+            />
             <div style={styles.divFlexRow}>
               <Button
                 onClick={addNewAddress}
@@ -312,10 +102,12 @@ ${propertyArray.join(', ')} must be filled`
                 Add New Address
               </Button>
             </div>
-          </AppBody>
-          <Footer defaultButtons />
-        </>
-      )}
+          </>
+        ) : (
+          <LoadingComponent height={'40vh'} />
+        )}
+      </AppBody>
+      <Footer defaultButtons />
     </>
   );
 }
