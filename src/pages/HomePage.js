@@ -24,7 +24,7 @@ export default function HomePage() {
 
   // Shortcut to 'Design your tag' Button
   useKeypress('Enter', () => history.push('/tag-constructor'));
-
+  // localStorage.clear();
   return (
     <>
       <Header>
@@ -40,7 +40,6 @@ export default function HomePage() {
           }}
           onClick={() => history.push('/tag-constructor')}
           icon={''}
-          text={'Design your tag'}
         >
           Design your tag
         </Button>
