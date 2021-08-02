@@ -10,7 +10,6 @@ import Header from '../components/styleComponents/Header';
 import AppBody from '../components/styleComponents/AppBody';
 import Button from '../components/styleComponents/Button';
 import Footer from '../components/styleComponents/Footer';
-import LoadingPage from './LoadingPage';
 
 // functional Components
 import TagRenderer from '../components/Tag';
@@ -23,7 +22,7 @@ import styles from '../styles/styles';
 export default function TagSumaryPage() {
   const history = useHistory();
   const orderManager = useOrderManager();
-  const { order, availability } = orderManager;
+  const { order } = orderManager;
   const itens = order.purchase_units[0].itens;
 
   const handleChange = (index, newQuantity) => {
@@ -38,6 +37,10 @@ export default function TagSumaryPage() {
 
   const handleDesignAnother = () => {
     history.push('/tag-constructor');
+  };
+
+  const handlePurchaseClick = () => {
+    history.push('/tag-constructor/shipping');
   };
 
   React.useEffect(() => {
@@ -144,7 +147,7 @@ export default function TagSumaryPage() {
                   ...styles.btnFilledPurple,
                   margin: '0px 0px 0px 10px',
                 }}
-                onClick={() => history.push('/tag-constructor/shipping')}
+                onClick={handlePurchaseClick}
               >
                 Purchase
               </Button>

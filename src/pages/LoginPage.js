@@ -15,6 +15,17 @@ import LoadingComponent from '../components/styleComponents/LoadingComponent';
 // Styles
 import styles from '../styles/styles';
 
+const userReducer = (state, action) => {
+  switch (action.type) {
+    case 'email':
+      return { ...state, email: action.value };
+    case 'password':
+      return { ...state, password: action.value };
+    default:
+      throw new Error();
+  }
+};
+
 export default function LoginPage({ showMessage }) {
   const auth = useAuth();
   const history = useHistory();
@@ -24,16 +35,6 @@ export default function LoginPage({ showMessage }) {
 
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const userReducer = (state, action) => {
-    switch (action.type) {
-      case 'email':
-        return { ...state, email: action.value };
-      case 'password':
-        return { ...state, password: action.value };
-      default:
-        throw new Error();
-    }
-  };
   const [userInput, dispatchUserInput] = React.useReducer(userReducer, {
     email: '',
     password: '',
@@ -81,11 +82,10 @@ export default function LoginPage({ showMessage }) {
   };
 
   const redirectToRegister = (email) => {
-    const userLocation = {
+    history.push({
       pathname: '/login/register',
       state: { email: email },
-    };
-    history.push(userLocation);
+    });
   };
 
   return (

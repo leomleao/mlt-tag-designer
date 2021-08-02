@@ -4,16 +4,12 @@ import Button from '../components/styleComponents/Button';
 import Footer from '../components/styleComponents/Footer';
 import Header from '../components/styleComponents/Header';
 import Tag from '../components/Tag';
-import { useHistory, useLocation } from 'react-router-dom';
-import { useAuth } from '../helpers/use-auth';
+import { useHistory } from 'react-router-dom';
 
 import styles from '../styles/styles';
 
 export default function TagSubmitedPage({}) {
-  const auth = useAuth();
-  let location = useLocation();
-  let history = useHistory();
-  let { from } = location.state || { from: '/' };
+  const history = useHistory();
 
   return (
     <>
