@@ -39,7 +39,7 @@ export default function RegisterPage({ showMessage }) {
 
   React.useEffect(() => {
     if (receivedEmail) handleChange({ input: 'email', value: receivedEmail });
-  }, []);
+  }, [receivedEmail]);
 
   const handleRegister = () => {
     setIsLoading(true);
