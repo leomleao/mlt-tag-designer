@@ -1,11 +1,24 @@
+// Libs
 import React from 'react';
-import AppBody from '../AppBody';
-import Button from '../Button';
-import Footer from '../Footer';
-import Header from '../Header';
-import SettingsButton from '../SettingsButton';
+
+// Helpers
+import { useAuth } from '../helpers/use-auth';
 import { useHistory, useLocation } from 'react-router-dom';
-import { useAuth } from '../../helpers/use-auth';
+
+// style Components
+import Header from '../components/styleComponents/Header';
+import AppBody from '../components/styleComponents/AppBody';
+import Button from '../components/styleComponents/Button';
+import Footer from '../components/styleComponents/Footer';
+
+// functional Components
+import SettingsButton from '../components/styleComponents/SettingsButton';
+// import Input from '../components/styleComponents/Input';
+
+// Styles
+// import styles from '../styles/styles';
+// import TextArea from '../components/styleComponents/TextArea';
+// import LoadingComponent from '../components/styleComponents/LoadingComponent';
 
 export default function HomeContactForm() {
   const auth = useAuth();

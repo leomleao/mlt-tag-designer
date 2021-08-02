@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 
 import styles from '../styles/styles';
 
-import Button from './Button';
-import Input from './Input';
+import Button from './styleComponents/Button';
+import Input from './styleComponents/Input';
 
 export default function MessageModal({ state, dispatch }) {
   const { showModal, method, message, value, callback } = state;

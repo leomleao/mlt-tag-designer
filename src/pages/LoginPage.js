@@ -1,18 +1,19 @@
-// libs
+// Libs
 import React from 'react';
 
-// helpers
+// Helpers
+import { useAuth } from '../helpers/use-auth';
 import { useHistory, useLocation } from 'react-router-dom';
-import { useAuth } from '../../helpers/use-auth';
 
-// components
-import Button from '../Button';
-import Footer from '../Footer';
-import Input from '../Input';
-import MessageModal from '../MessageModal';
+// Components
+import Button from '../components/styleComponents/Button';
+import Footer from '../components/styleComponents/Footer';
+import Input from '../components/styleComponents/Input';
+// import SettingsButton from '../components/styleComponents/SettingsButton';
+// import LoadingComponent from '../components/styleComponents/LoadingComponent';
 
-// style
-import styles from '../../styles/styles';
+// Styles
+import styles from '../styles/styles';
 
 export default function LoginPage() {
   const auth = useAuth();
@@ -124,7 +125,7 @@ export default function LoginPage() {
 
   return (
     <>
-      <MessageModal state={modalState} dispatch={modalDispatch} />
+      {/* <MessageModal state={modalState} dispatch={modalDispatch} /> */}
       <header style={styles.loginHeader}>
         <img
           src={'logoLogin.svg'}

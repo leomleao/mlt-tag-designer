@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal } from 'react-responsive-modal';
 import { useKeypress } from '../helpers/use-keypress';
 
-import Input from './Input';
+import Input from './styleComponents/Input';
 
 import PropTypes from 'prop-types';
 

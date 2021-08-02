@@ -1,13 +1,24 @@
+// Libs
 import React from 'react';
-import AppBody from '../AppBody';
-import Button from '../Button';
-import Footer from '../Footer';
-import Header from '../Header';
-import { useHistory, useLocation } from 'react-router-dom';
-import { useAuth } from '../../helpers/use-auth';
 
-import styles from '../../styles/styles';
-import SummaryTable from '../SummaryTable';
+// Helpers
+import { useHistory, useLocation } from 'react-router-dom';
+// import { useOrderManager } from '../helpers/use-order';
+import { useAuth } from '../helpers/use-auth';
+
+// style Components
+import Header from '../components/styleComponents/Header';
+import AppBody from '../components/styleComponents/AppBody';
+import Button from '../components/styleComponents/Button';
+import Footer from '../components/styleComponents/Footer';
+// import AddressToShipCard from '../components/styleComponents/AddressToShipCard';
+
+// functional Components
+import SummaryTable from '../components/styleComponents/SummaryTable';
+// import PaypalButton from '../components/PaypalButton';
+
+// Styles
+import styles from '../styles/styles';
 
 export default function TagPaymentPage({ order, standards, changeOrder }) {
   const auth = useAuth();

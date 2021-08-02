@@ -1,16 +1,24 @@
+// Libs
 import React from 'react';
-import Button from '../Button';
-import Header from '../Header';
-import Tag from '../tag-constructor/Tag';
-import { useHistory } from 'react-router-dom';
-import AppBody from '../AppBody';
-import Footer from '../Footer';
-import Input from '../Input';
-import SummaryTable from '../SummaryTable';
 
-import styles from '../../styles/styles';
+// Helpers
+import { Redirect, useHistory } from 'react-router-dom';
+// import { useOrderManager, Tag } from '../helpers/use-order';
 
-import PropTypes from 'prop-types';
+// style Components
+import Header from '../components/styleComponents/Header';
+import AppBody from '../components/styleComponents/AppBody';
+import Button from '../components/styleComponents/Button';
+import Footer from '../components/styleComponents/Footer';
+// import LoadingPage from './LoadingPage';
+
+// functional Components
+// import TagRenderer from '../components/Tag';
+import Input from '../components/styleComponents/Input';
+import SummaryTable from '../components/styleComponents/SummaryTable';
+
+// Styles
+import styles from '../styles/styles';
 
 export default function TagSumaryPage({ order, changeOrder, standards }) {
   const history = useHistory();
@@ -42,13 +50,8 @@ export default function TagSumaryPage({ order, changeOrder, standards }) {
       </Header>
       <AppBody>
         {order.TAGs.map((tag, index) => {
-          const {
-            typedName,
-            fontFamily,
-            insideColor,
-            outsideColor,
-            quantity,
-          } = tag;
+          const { typedName, fontFamily, insideColor, outsideColor, quantity } =
+            tag;
           return (
             <div
               key={index}
@@ -57,7 +60,7 @@ export default function TagSumaryPage({ order, changeOrder, standards }) {
                 ...styles.cardParent,
               }}
             >
-              <Tag size={90} tag={tag} spaceBetween={0} startPosition={0} />
+              {/* <Tag size={90} tag={tag} spaceBetween={0} startPosition={0} /> */}
               <div style={styles.card}>
                 <span style={{ marginTop: '10px' }}>
                   Tag Name:{' '}

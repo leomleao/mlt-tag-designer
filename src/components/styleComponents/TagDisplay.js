@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import Button from './Button';
-import '../styles/slider.css';
+import '../../styles/slider.css';
 
 export default function TagDisplay({
   TAGS = [

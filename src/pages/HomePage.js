@@ -1,20 +1,23 @@
+// Libs
 import React from 'react';
 
+// Helpers
+import { useKeypress } from '../helpers/use-keypress';
 import { useHistory } from 'react-router-dom';
 
-import AppBody from '../AppBody';
-import Footer from '../Footer';
-import Header from '../Header';
-import Button from '../Button';
+// style Components
+import Header from '../components/styleComponents/Header';
+import AppBody from '../components/styleComponents/AppBody';
+import Button from '../components/styleComponents/Button';
+import Footer from '../components/styleComponents/Footer';
 
-import 'react-responsive-modal/styles.css';
-import TagDisplay from '../TagDisplay';
-import ExampleDisplay from '../ExampleDisplay';
-import SettingsButton from '../SettingsButton';
+// functional Components
+import SettingsButton from '../components/styleComponents/SettingsButton';
+import TagDisplay from '../components/styleComponents/TagDisplay';
+import ExamplesDisplay from '../components/styleComponents/ExamplesDisplay';
 
-import { useKeypress } from '../../helpers/use-keypress';
-
-import styles from '../../styles/styles';
+// Styles
+import styles from '../styles/styles';
 
 export default function HomePage() {
   const history = useHistory();
@@ -41,7 +44,7 @@ export default function HomePage() {
         >
           Design your tag
         </Button>
-        <ExampleDisplay />
+        <ExamplesDisplay />
       </AppBody>
       <Footer defaultButtons />
     </>

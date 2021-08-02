@@ -2,7 +2,7 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 
-import styles from '../styles/styles';
+import styles from '../../styles/styles';
 
 export default function SummaryTable({
   TAGs = [],

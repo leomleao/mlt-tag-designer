@@ -1,9 +1,9 @@
 import React from 'react';
-import Input from '../Input';
-import Select from '../Select';
+import Input from './styleComponents/Input';
+import Select from './Select';
 
 import PropTypes from 'prop-types';
-import styles from '../../styles/styles';
+import styles from '../styles/styles';
 
 export default function DiscProperties({ tag, availability, onChange, style }) {
   // const { typedName, fontFamily, insideColor, outsideColor } = tag;

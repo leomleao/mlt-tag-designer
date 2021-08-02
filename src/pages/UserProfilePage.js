@@ -1,15 +1,23 @@
+// Libs
 import React from 'react';
 
-import AppBody from '../AppBody';
-import Button from '../Button';
-import Footer from '../Footer';
-import Header from '../Header';
-import SettingsButton from '../SettingsButton';
+// Helpers
+import { useAuth } from '../helpers/use-auth';
 import { useHistory, useLocation } from 'react-router-dom';
-import { useAuth } from '../../helpers/use-auth';
-import Input from '../Input';
 
-import styles from '../../styles/styles';
+// style Components
+import Header from '../components/styleComponents/Header';
+import AppBody from '../components/styleComponents/AppBody';
+import Button from '../components/styleComponents/Button';
+import Footer from '../components/styleComponents/Footer';
+
+// functional Components
+import SettingsButton from '../components/styleComponents/SettingsButton';
+import Input from '../components/styleComponents/Input';
+// import { MessageModal } from '../components/MessageModal';
+
+// Styles
+import styles from '../styles/styles';
 
 export default function ProfilePage() {
   let location = useLocation();

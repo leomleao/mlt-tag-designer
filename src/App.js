@@ -1,19 +1,28 @@
-// libs
+// Libs
 import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 
-// high order comppnents
-import ParentTagContructor from './components/Parents/ParentTagConstructor';
-import ParentUser from './components/Parents/ParentUser';
+// Components
+import HomePage from './pages/HomePage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import HomeContactForm from './pages/HomeContactForm';
+import UserProfilePage from './pages/UserProfilePage';
+import UserAddressesPage from './pages/UserAddressesPage';
+import UserOrdersPage from './pages/UserOrdersPage';
+import TagSumaryPage from './pages/TagSumaryPage';
+import TagShippingPage from './pages/TagShippingPage';
+import TagPaymentPage from './pages/TagPaymentPage';
+import TagSubmitedPage from './pages/TagSubmitedPage';
+import TagConstructorPage from './pages/TagConstructorPage';
 
-// pages
-import HomePage from './components/pages/HomePage';
-import LoginPage from './components/pages/LoginPage';
-import RegisterPage from './components/pages/RegisterPage';
-import HomeContactForm from './components/pages/HomeContactForm';
+// Helpers
+// import ScrollToTop from './helpers/ScrollToTop';
+// import { MessageModal, useMessageModal } from './components/MessageModal';
 
-// providers
+// Providers
 import { ProvideAuth, useAuth } from './helpers/use-auth.js';
+// import { ProvideOrder } from './helpers/use-order.js';
 
 export default function App() {
   const auth = useAuth();
@@ -43,15 +52,11 @@ export default function App() {
               <LoginPage />
             )}
           </Route>
-          <Route path="/tag-constructor">
-            <ParentTagContructor />
-          </Route>
+          <Route path="/tag-constructor">{/* <ParentTagContructor /> */}</Route>
           <Route path="/contact-form">
             <HomeContactForm />
           </Route>
-          <Route path="/user">
-            <ParentUser />
-          </Route>
+          <Route path="/user">{/* <ParentUser /> */}</Route>
           <Route path="/">
             <HomePage />
           </Route>

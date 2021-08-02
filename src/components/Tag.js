@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import '../../helpers/fillTextCircle.js';
+import '../helpers/fillTextCircle.js';
 
 import PropTypes from 'prop-types';
 

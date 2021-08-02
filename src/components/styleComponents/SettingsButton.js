@@ -3,9 +3,9 @@ import Modal from 'react-responsive-modal';
 
 import { useHistory, useLocation } from 'react-router-dom';
 
-import { useAuth } from '../helpers/use-auth';
+import { useAuth } from '../../helpers/use-auth';
 
-import styles from '../styles/styles';
+import styles from '../../styles/styles';
 
 import Button from './Button';
 

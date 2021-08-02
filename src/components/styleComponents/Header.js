@@ -1,20 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import styles from '../styles/styles';
+import styles from '../../styles/styles';
 
 export default function Header({
   title = 'M.L.T. Designs',
   subtitle = '',
   children,
 }) {
-  const {
-    divFlexColumn,
-    divFlexRow,
-    header,
-    h1heading,
-    h3heading,
-  } = localStyles;
+  const { divFlexColumn, divFlexRow, header, h1heading, h3heading } =
+    localStyles;
   return (
     <header style={header}>
       <div style={divFlexRow}>{children}</div>

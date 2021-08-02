@@ -1,19 +1,29 @@
+// Libs
 import React from 'react';
-import AppBody from '../AppBody';
-import Button from '../Button';
-import Footer from '../Footer';
-import Header from '../Header';
-import SettingsButton from '../SettingsButton';
-import { useHistory, useLocation } from 'react-router-dom';
-import { useAuth } from '../../helpers/use-auth';
-import AddressCard from '../AddressCard';
 
-import styles from '../../styles/styles';
-import Input from '../Input';
-import LoadingPage from './LoadingPage';
+// Helpers
+import { useAuth } from '../helpers/use-auth';
+import { useHistory, useLocation } from 'react-router-dom';
+
+// style Components
+import Header from '../components/styleComponents/Header';
+import AppBody from '../components/styleComponents/AppBody';
+import Button from '../components/styleComponents/Button';
+import Footer from '../components/styleComponents/Footer';
+// import AddressCardParent from '../components/AddressCardParent';
+import LoadingComponent from '../components/styleComponents/LoadingComponent';
+
+// functional Components
+import SettingsButton from '../components/styleComponents/SettingsButton';
+
+// Styles
+import styles from '../styles/styles';
+
+// Validations
+// import { Address } from '../helpers/validations/Address';
 
 // DataBank
-// import * as api from '../../service/apiService';
+// import { useFirestore } from '../service/use-firestore';
 
 export default function AddressesPage() {
   const location = useLocation();
@@ -178,7 +188,7 @@ ${propertyArray.join(', ')} must be filled`
   return (
     <>
       {loading ? (
-        <LoadingPage />
+        <LoadingComponent />
       ) : (
         <>
           <Header subtitle="My Addresses">
@@ -191,7 +201,7 @@ ${propertyArray.join(', ')} must be filled`
                 <div key={`A${index}`}>
                   {address.detailed ? (
                     <div style={styles.cardParent}>
-                      <AddressCard
+                      {/* <AddressCard
                         key={`B${index}`}
                         address={address}
                         index={index}
@@ -199,7 +209,7 @@ ${propertyArray.join(', ')} must be filled`
                         handleSaveClick={handleSave}
                         handleChange={handleChange}
                         setDefault={setDefault}
-                      />
+                      /> */}
                       <div style={styles.divFlexRow}>
                         <Button
                           onClick={() => handleHideDetails(index)}
@@ -265,14 +275,14 @@ ${propertyArray.join(', ')} must be filled`
                           )}
                         </div>
                         <div style={styles.card}>
-                          <Input
+                          {/* <Input
                             type="text"
                             label="Street:"
                             value={address.street}
                             onChange={() => {
                               console.log('street');
                             }}
-                          />
+                          /> */}
                         </div>
                       </div>
                       <div style={styles.divFlexRow}>

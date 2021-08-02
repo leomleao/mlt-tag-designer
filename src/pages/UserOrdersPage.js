@@ -1,15 +1,15 @@
 import React from 'react';
-import AppBody from '../AppBody';
-import Button from '../Button';
-import Footer from '../Footer';
-import Header from '../Header';
-import SettingsButton from '../SettingsButton';
+import AppBody from '../components/styleComponents/AppBody';
+import Button from '../components/styleComponents/Button';
+import Footer from '../components/styleComponents/Footer';
+import Header from '../components/styleComponents/Header';
+import SettingsButton from '../components/styleComponents/SettingsButton';
 import { useHistory, useLocation } from 'react-router-dom';
-import { useAuth } from '../../helpers/use-auth';
-import Tag from '../tag-constructor/Tag';
-import Status from '../Status';
+import { useAuth } from '../helpers/use-auth';
+import Tag from '../components/Tag';
+import Status from '../components/styleComponents/Status';
 
-import styles from '../../styles/styles';
+import styles from '../styles/styles';
 
 export default function OrdersPage() {
   const auth = useAuth();

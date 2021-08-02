@@ -2,7 +2,7 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 
-import '../styles/input.css';
+import '../../styles/styles';
 
 export default function Input({
   type,

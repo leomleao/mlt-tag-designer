@@ -1,16 +1,24 @@
+// Libs
 import React from 'react';
-import Tag from '../tag-constructor/Tag';
-import DiscProperties from '../tag-constructor/DiscProperties';
-import Header from '../Header';
-import Footer from '../Footer';
-import AppBody from '../AppBody';
-import Button from '../Button';
+
+// Helpers
 import { useHistory } from 'react-router-dom';
-import LoadingComponent from '../LoadingComponent';
+// import { useOrderManager } from '../helpers/use-order';
 
-import PropTypes from 'prop-types';
+// style Components
+import Header from '../components/styleComponents/Header';
+import AppBody from '../components/styleComponents/AppBody';
+import Button from '../components/styleComponents/Button';
+import Footer from '../components/styleComponents/Footer';
 
-import styles from '../../styles/styles';
+// functional Components
+// import TagRenderer from '../components/Tag';
+import DiscProperties from '../components/DiscProperties';
+import LoadingComponent from '../components/styleComponents/LoadingComponent';
+// import { Tag } from '../helpers/use-order';
+
+// Styles
+import styles from '../styles/styles';
 
 export default function TagConstructorPage({ changeOrder }) {
   const history = useHistory();
@@ -65,7 +73,7 @@ export default function TagConstructorPage({ changeOrder }) {
         <Button onClick={() => history.push('/')} icon={'navigate_before'} />
       </Header>
       <AppBody>
-        <Tag size={200} tag={tag} styles={{ margin: '20px' }} />
+        {/* <Tag size={200} tag={tag} styles={{ margin: '20px' }} /> */}
         {availability ? (
           <DiscProperties
             availability={availability}

@@ -1,18 +1,19 @@
-// libs
+// Libs
 import React from 'react';
 
-// helpers
-import { useAuth } from '../../helpers/use-auth';
+// Helpers
+import { useAuth } from '../helpers/use-auth';
 import { useHistory, useLocation } from 'react-router-dom';
 
-// components
-import Button from '../Button';
-import Footer from '../Footer';
-import RegisterForm from '../RegisterForm';
-import MessageModal from '../MessageModal';
+// Components
+import Button from '../components/styleComponents/Button';
+import Footer from '../components/styleComponents/Footer';
+import RegisterForm from '../components/RegisterForm';
+// import SettingsButton from '../components/styleComponents/SettingsButton';
+// import LoadingComponent from '../components/styleComponents/LoadingComponent';
 
-// style
-import styles from '../../styles/styles';
+// Styles
+import styles from '../styles/styles';
 
 export default function RegisterPage() {
   const auth = useAuth();
@@ -96,7 +97,7 @@ export default function RegisterPage() {
 
   return (
     <>
-      <MessageModal state={modalState} dispatch={modalDispatch} />
+      {/* <MessageModal state={modalState} dispatch={modalDispatch} /> */}
       <header style={styles.loginHeader}>
         <img
           src={'../logoLogin.svg'}

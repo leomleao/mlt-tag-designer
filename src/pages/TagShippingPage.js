@@ -1,19 +1,29 @@
+// Libs
 import React from 'react';
-import AppBody from '../AppBody';
-import Button from '../Button';
-import Footer from '../Footer';
-import Header from '../Header';
+
+// Helpers
 import { useHistory } from 'react-router-dom';
-import { useAuth } from '../../helpers/use-auth';
+import { useAuth } from '../helpers/use-auth';
+// import { useOrderManager } from '../helpers/use-order';
 
-import styles from '../../styles/styles';
+// style Components
+import Header from '../components/styleComponents/Header';
+import AppBody from '../components/styleComponents/AppBody';
+import Button from '../components/styleComponents/Button';
+import Footer from '../components/styleComponents/Footer';
+// import MessageStyle from '../components/styleComponents/MessageStyle';
+// import Input from '../components/styleComponents/Input';
 
-import AddressCard from '../AddressCard';
-import SummaryTable from '../SummaryTable';
+// functional Components
+import AddressCard from '../components/AddressCard';
+import SummaryTable from '../components/styleComponents/SummaryTable';
 import Modal from 'react-responsive-modal';
 
+// Styles
+import styles from '../styles/styles';
+
 // DataBank
-// import * as api from '../../service/apiService';
+// import { useFirestore } from '../service/use-firestore';
 
 export default function TagShippingPage({ order, standards, changeOrder }) {
   const { tag_std_price, shipping_price } = standards;

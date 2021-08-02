@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Input from './Input';
+import Input from './styleComponents/Input';
 import AddressCard from './AddressCard';
 
 import styles from '../styles/styles.js';
-import Button from './Button';
+import Button from './styleComponents/Button';
 
 function RegisterForm({ state, onChange }) {
   const { name, password, repeatedPassword, email, address } = state;

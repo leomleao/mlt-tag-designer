@@ -1,9 +1,13 @@
+// Libs
 import React from 'react';
-import AppBody from '../AppBody';
-import Footer from '../Footer';
-import Header from '../Header';
 
-import styles from '../../styles/styles';
+// Components
+import Header from '../components/styleComponents/Header';
+import AppBody from '../components/styleComponents/AppBody';
+import Footer from '../components/styleComponents/Footer';
+
+// Styles
+import styles from '../styles/styles';
 
 export default function LoadingPage() {
   return (
