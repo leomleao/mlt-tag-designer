@@ -23,7 +23,7 @@ import Modal from 'react-responsive-modal';
 import styles from '../styles/styles';
 
 // DataBank
-import { useFirestore } from '../service/use-firestore';
+import firestore from '../service/use-firestore';
 
 export default function TagShippingPage() {
   const orderManager = useOrderManager();
@@ -37,14 +37,13 @@ export default function TagShippingPage() {
   } = order;
   const addressDetails = { address };
   // get user addresses
-  const { getUserAddressesByUid } = useFirestore();
   const { user } = useAuth();
   const [addresses, setAddresses] = React.useState([]);
 
   React.useEffect(() => {
     const getAddresses = async () => {
       try {
-        const data = await getUserAddressesByUid(user.uid);
+        const data = await firestore.getUserAddressesByUid(user.uid);
         if (data) setAddresses(data);
       } catch (error) {
         console.error('Cannot retrive addresses data' + error);

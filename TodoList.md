@@ -11,6 +11,7 @@
 - [ ] Develop form with input for order
 - [x] Validation for telefone number
 - [ ] Develop conection with back end to receive e-mails
+- [ ] HomeContactForm.js:86
 
 ### `HomePage`
 
@@ -103,9 +104,10 @@
 - [ ] support button redirect to contact us form with orders details
 - [ ] remove delete button
 
-### `firestore.rules`
+### `firestore`
 
-- [ ] update all, current rules allow all read and writes
+- [ ] update all rules, current rules allow all read and writes
+- [x] tranform useFirestore to class
 
 ### `Data bank`
 

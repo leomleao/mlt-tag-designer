@@ -5,7 +5,7 @@ import AddressCard from './AddressCard';
 import styles from '../styles/styles';
 import Button from './styleComponents/Button';
 import Input from './styleComponents/Input';
-import { useFirestore } from '../service/use-firestore';
+import firestore from '../service/use-firestore';
 import { useAuth } from '../helpers/use-auth';
 import { addressYupSchema } from '../helpers/validations/Address';
 
@@ -14,7 +14,6 @@ export default function AddressCardParent({
   setUserAddresses,
   showMessage,
 }) {
-  const firestore = useFirestore();
   // get user addresses
   const { user } = useAuth();
 

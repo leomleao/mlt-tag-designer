@@ -5,7 +5,7 @@ import React, { useState, useEffect, useContext, createContext } from 'react';
 import firebase from '../firebase';
 
 // DataBank
-import { useFirestore } from '../service/use-firestore';
+import firestore from '../service/use-firestore';
 
 const authContext = createContext();
 
@@ -25,8 +25,6 @@ export const useAuth = () => {
 // Provider hook that creates auth object and handles state
 function useProvideAuth() {
   const [user, setUser] = useState(null);
-
-  const firestore = useFirestore();
 
   // fired with loginWithGoogle button in LoginPage -->OK
   const signInWithGooglePopup = async (cb) => {

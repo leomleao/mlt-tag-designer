@@ -8,7 +8,7 @@ import React, {
 } from 'react';
 
 // DataBank
-import { useFirestore } from '../service/use-firestore';
+import firestore from '../service/use-firestore';
 import { useAuth } from './use-auth';
 
 const orderContext = createContext();
@@ -32,8 +32,6 @@ export const useOrderManager = () => {
 
 // Provider hook that creates order object and handles state
 function useProvideOrder() {
-  const firestore = useFirestore();
-
   const [tagPrice, setTagPrice] = useState(null);
   const [availability, setAvailability] = useState(null);
   useEffect(() => {

@@ -23,14 +23,12 @@ import styles from '../styles/styles';
 import { Address } from '../helpers/validations/Address';
 
 // DataBank
-import { useFirestore } from '../service/use-firestore';
+import firestore from '../service/use-firestore';
 
 export default function AddressesPage({ showMessage }) {
   const location = useLocation();
   const history = useHistory();
   const { from } = location.state || { from: '/' };
-
-  const firestore = useFirestore();
 
   // get user addresses
   const { user } = useAuth();
