@@ -8,7 +8,6 @@ import TagSumaryPage from '../pages/TagSumaryPage';
 
 // DataBank
 import { useFirestore } from '../../service/use-firestore';
-import * as api from '../../service/apiService';
 
 export default function TagConstructorParent() {
   const firestore = useFirestore();

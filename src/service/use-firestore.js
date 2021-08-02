@@ -47,7 +47,6 @@ export const useFirestore = () => {
   };
   // End updateUserByUid
 
-
   /**
    *
    * GET    /users/address?uid=
@@ -146,7 +145,6 @@ export const useFirestore = () => {
   const updateOrdersById = async (id, update) => {};
   // End updateOrdersById
 
-
   /**
    *
    * GET /availability
@@ -170,11 +168,7 @@ export const useFirestore = () => {
   return {
     getServerRunning,
     postNewUser,
-    getAllUsers,
-    getUserByUid,
     updateUserByUid,
-    deleteUserByUid,
-    postUserNewAddressesByUid,
     getUserAddressesByUid,
     updateUserAddressByUidAndIndex,
     deleteUserAddressByUidAndIndex,
@@ -182,7 +176,6 @@ export const useFirestore = () => {
     getAllOrders,
     getOrdersByUid,
     updateOrdersById,
-    deleteOrdersById,
     getAvailability,
   };
 };
