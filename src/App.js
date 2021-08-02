@@ -18,18 +18,25 @@ import TagConstructorPage from './pages/TagConstructorPage';
 
 // Helpers
 import ScrollToTop from './helpers/ScrollToTop';
-// import { MessageModal, useMessageModal } from './components/MessageModal';
+import { MessageModal, useMessageModal } from './components/MessageModal';
 
 // Providers
 import { ProvideAuth, useAuth } from './helpers/use-auth.js';
-// import { ProvideOrder } from './helpers/use-order.js';
+import { ProvideOrder } from './helpers/use-order.js';
 
 export default function App() {
   const auth = useAuth();
+  const [modalState, dispatch] = useMessageModal();
+
   return (
     <ProvideAuth>
       <BrowserRouter>
+        <ScrollToTop />
+        <MessageModal state={modalState} dispatch={dispatch} />
         <Switch>
+          <Route path="/" exact>
+            <HomePage />
+          </Route>
           <Route path="/login/register">
             {auth ? (
               <Redirect
@@ -38,7 +45,7 @@ export default function App() {
                 }}
               />
             ) : (
-              <RegisterPage />
+              <RegisterPage showMessage={dispatch} />
             )}
           </Route>
           <Route path="/login">
@@ -49,16 +56,41 @@ export default function App() {
                 }}
               />
             ) : (
-              <LoginPage />
+              <LoginPage showMessage={dispatch} />
             )}
           </Route>
-          <Route path="/tag-constructor">{/* <ParentTagContructor /> */}</Route>
-          <Route path="/contact-form">
-            <HomeContactForm />
+          <Route path="/tag-constructor">
+            <ProvideOrder>
+              <Switch>
+                <Route path="/tag-constructor/sumary">
+                  <TagSumaryPage />
+                </Route>
+                <Route path="/tag-constructor/shipping">
+                  <TagShippingPage />
+                </Route>
+                <Route path="/tag-constructor/payment">
+                  <TagPaymentPage />
+                </Route>
+                <Route path="/tag-constructor/submited">
+                  <TagSubmitedPage />
+                </Route>
+                <Route path="/tag-constructor">
+                  <TagConstructorPage showMessage={dispatch} />
+                </Route>
+              </Switch>
+            </ProvideOrder>
           </Route>
-          <Route path="/user">{/* <ParentUser /> */}</Route>
-          <Route path="/">
-            <HomePage />
+          <Route path="/user/profile">
+            <UserProfilePage />
+          </Route>
+          <Route path="/user/addresses">
+            <UserAddressesPage showMessage={dispatch} />
+          </Route>
+          <Route path="/user/orders">
+            <UserOrdersPage />
+          </Route>
+          <Route path="/contact-form">
+            <HomeContactForm showMessage={dispatch} />
           </Route>
         </Switch>
       </BrowserRouter>
