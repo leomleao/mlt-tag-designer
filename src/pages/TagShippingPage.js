@@ -4,15 +4,15 @@ import React from 'react';
 // Helpers
 import { useHistory } from 'react-router-dom';
 import { useAuth } from '../helpers/use-auth';
-// import { useOrderManager } from '../helpers/use-order';
+import { useOrderManager } from '../helpers/use-order';
 
 // style Components
 import Header from '../components/styleComponents/Header';
 import AppBody from '../components/styleComponents/AppBody';
 import Button from '../components/styleComponents/Button';
 import Footer from '../components/styleComponents/Footer';
-// import MessageStyle from '../components/styleComponents/MessageStyle';
-// import Input from '../components/styleComponents/Input';
+import MessageStyle from '../components/styleComponents/MessageStyle';
+import Input from '../components/styleComponents/Input';
 
 // functional Components
 import AddressCard from '../components/AddressCard';
@@ -23,37 +23,52 @@ import Modal from 'react-responsive-modal';
 import styles from '../styles/styles';
 
 // DataBank
-// import { useFirestore } from '../service/use-firestore';
+import { useFirestore } from '../service/use-firestore';
 
-export default function TagShippingPage({ order, standards, changeOrder }) {
-  const { tag_std_price, shipping_price } = standards;
-
+export default function TagShippingPage() {
+  const orderManager = useOrderManager();
+  const { order } = orderManager;
+  const {
+    purchase_units: [
+      {
+        shipping: { name: { full_name } = {}, address, registeredPost } = {},
+      } = {},
+    ] = [],
+  } = order;
+  const addressDetails = { address };
   // get user addresses
-  const auth = useAuth();
-  const user = auth.user;
+  const { getUserAddressesByUid } = useFirestore();
+  const { user } = useAuth();
   const [addresses, setAddresses] = React.useState([]);
 
-  // const getAddresses = async () => {
-  //   try {
-  //     const { data } = await api.getUserAddressesByUid(user.uid);
-  //     setAddresses(data.addresses);
-  //   } catch (error) {
-  //     console.error('Cannot retrive addresses data' + error);
-  //   }
-  // };
-  // React.useEffect(() => {
-  //   if (user) {
-  //     if (addresses.length === 0) {
-  //       getAddresses();
-  //     }
-  //   }
-  // }, [addresses, user]);
+  React.useEffect(() => {
+    const getAddresses = async () => {
+      try {
+        const data = await getUserAddressesByUid(user.uid);
+        if (data) setAddresses(data);
+      } catch (error) {
+        console.error('Cannot retrive addresses data' + error);
+      }
+    };
+    if (user && addresses) {
+      if (addresses.length === 0) {
+        getAddresses();
+      }
+    }
+  }, [addresses, user]);
   // End get user addresses
 
   const history = useHistory();
 
-  const handleChange = (newAddress) => {
-    changeOrder({ type: 'changeAddresToShip', addressToShip: newAddress });
+  const handleChangeRegiteredPost = () => {
+    orderManager.changeRegiteredPost(!registeredPost);
+  };
+
+  const handleAddressChange = (newAddress) => {
+    orderManager.updateAddress(newAddress);
+  };
+  const handleNameChange = (newName) => {
+    orderManager.updateRecipentName(newName);
   };
 
   const [showModal, setShowModal] = React.useState(false);
@@ -61,16 +76,9 @@ export default function TagShippingPage({ order, standards, changeOrder }) {
     setShowModal(true);
   };
 
-  const handleCloseAdreessesModal = () => {
-    setShowModal(false);
-  };
-
   const handleSelectAddress = (index) => {
-    changeOrder({
-      type: 'changeAddresToShip',
-      addressToShip: addresses[index],
-    });
-    handleCloseAdreessesModal();
+    orderManager.updateAddress(addresses[index]);
+    setShowModal(false);
   };
 
   return (
@@ -83,55 +91,74 @@ export default function TagShippingPage({ order, standards, changeOrder }) {
         />
       </Header>
       <AppBody>
+        <Modal
+          open={showModal}
+          onClose={() => setShowModal(false)}
+          showCloseIcon={false}
+        >
+          {addresses.length > 0 ? (
+            <div style={styles.modalFlexColumn}>
+              {addresses.map(({ address }, index) => {
+                return (
+                  <div key={index}>
+                    <Button
+                      onClick={() => {
+                        handleSelectAddress(index);
+                      }}
+                      icon={'place'}
+                      style={styles.btnUnfilledGray}
+                    >
+                      {address.address_line_1}
+                    </Button>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <>
+              {user ? (
+                <MessageStyle>You dont have any address saved</MessageStyle>
+              ) : (
+                <MessageStyle>You must be logged in</MessageStyle>
+              )}
+            </>
+          )}
+        </Modal>
         <div style={styles.divFlexRow}>
           <Button
-            onClick={() => {
-              handleOpenAdreessesModal();
-            }}
+            onClick={handleOpenAdreessesModal}
             icon={'cloud_download'}
             style={styles.btnUnfilledGray}
           >
-            Send to my saved address
+            Load my saved addresses
           </Button>
-          <Modal
-            open={showModal}
-            onClose={handleCloseAdreessesModal}
-            showCloseIcon={false}
-          >
-            {addresses.length > 0 ? (
-              <div style={styles.modalFlexColumn}>
-                {addresses.map((address, index) => {
-                  return (
-                    <div key={index}>
-                      <Button
-                        onClick={() => {
-                          handleSelectAddress(index);
-                        }}
-                        icon={'place'}
-                        style={styles.btnUnfilledGray}
-                      >
-                        {address.street}
-                      </Button>
-                    </div>
-                  );
-                })}
-              </div>
-            ) : (
-              <p>You must be logged in</p>
-            )}
-          </Modal>
+        </div>
+        <div style={styles.cardParent}>
+          <Input
+            type="text"
+            label="Recipient's Name"
+            value={full_name}
+            autoComplete="name"
+            onChange={handleNameChange}
+          />
         </div>
         <div style={styles.cardParent}>
           <AddressCard
-            address={order.addressToShip}
-            handleChange={handleChange}
+            addressDetails={addressDetails}
+            handleChange={handleAddressChange}
           />
         </div>
-        <SummaryTable
-          TAGs={order.TAGs}
-          tag_std_price={tag_std_price}
-          shipping_price={shipping_price}
-        />
+
+        <div style={styles.divFlexRow}>
+          <Button
+            onClick={handleChangeRegiteredPost}
+            icon={registeredPost ? 'check_box' : 'check_box_outline_blank'}
+            style={styles.btnUnfilledGray}
+          >
+            Add registered post
+          </Button>
+        </div>
+        <SummaryTable order={order} shipping />
         <div style={styles.divFlexRow}>
           <Button
             style={styles.btnFilledPurple}
