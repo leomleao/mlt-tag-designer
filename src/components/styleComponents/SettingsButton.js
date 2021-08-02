@@ -1,13 +1,19 @@
+// Libs
 import React from 'react';
-import Modal from 'react-responsive-modal';
 
+//  Helpers
 import { useHistory, useLocation } from 'react-router-dom';
-
 import { useAuth } from '../../helpers/use-auth';
 
-import styles from '../../styles/styles';
+// Modal package
+import 'react-responsive-modal/styles.css';
+import Modal from 'react-responsive-modal';
 
+// style Components
 import Button from './Button';
+
+// Styles
+import styles from '../../styles/styles';
 
 export default function SettingsButton() {
   const auth = useAuth();
@@ -31,15 +37,6 @@ export default function SettingsButton() {
     history.push(userLocation);
     setShowModal(false);
   };
-
-  // const handlePaymentsButton = () => {
-  //   const userLocation = {
-  //     pathname: '/user/payments',
-  //     state: { from: location.pathname },
-  //   };
-  //   history.push(userLocation);
-  //   setShowModal(false)
-  // };
 
   const handleAdressesButton = () => {
     const userLocation = {
@@ -85,12 +82,6 @@ export default function SettingsButton() {
             <Button onClick={handleUserButton} icon={'account_box'}>
               Profile
             </Button>
-            {/* <Button
-              onClick={handlePaymentsButton}
-              icon={'account_balance_wallet'}
-            >
-              Payments
-            </Button> */}
             <Button onClick={handleAdressesButton} icon={'location_on'}>
               Addresses
             </Button>

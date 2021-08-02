@@ -1,21 +1,22 @@
+// Libs
 import React from 'react';
-import PropTypes from 'prop-types';
 
-import styles from '../../styles/styles';
+// Misc../../../../mlt-tag-designer_Old/src/styles/styles
+import PropTypes from 'prop-types';
 
 export default function Header({
   title = 'M.L.T. Designs',
   subtitle = '',
   children,
 }) {
-  const { divFlexColumn, divFlexRow, header, h1heading, h3heading } =
-    localStyles;
+  const { divFlexColumn, divFlexRow, header, h1heading, lineStyle, h3heading } =
+    styles;
   return (
     <header style={header}>
       <div style={divFlexRow}>{children}</div>
       <div style={divFlexColumn}>
         <h1 style={h1heading}>{title}</h1>
-        <div style={styles.lineStyle}></div>
+        <div style={lineStyle}></div>
         {subtitle && <h3 style={h3heading}>{subtitle}</h3>}
       </div>
     </header>
@@ -28,7 +29,7 @@ Header.propTypes = {
   children: PropTypes.node,
 };
 
-const localStyles = {
+const styles = {
   divFlexColumn: {
     display: 'flex',
     alignItems: 'center',
@@ -58,6 +59,13 @@ const localStyles = {
     margin: '0.4em',
     fontWeight: '550',
     fontSize: 'calc(25px + 2vmin)',
+  },
+  lineStyle: {
+    minWidth: '280px',
+    maxWidth: '600px',
+    width: '100%',
+    height: '2px',
+    backgroundColor: '#e5e8ea',
   },
   h3heading: {
     margin: '0.4em',

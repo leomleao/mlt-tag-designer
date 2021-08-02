@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function ExampleDisplay() {
+export default function ExamplesDisplay() {
   const IMGs = [
     {
       description: "It's a simple plastic tag",

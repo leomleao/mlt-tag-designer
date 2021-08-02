@@ -17,7 +17,7 @@ import TagSubmitedPage from './pages/TagSubmitedPage';
 import TagConstructorPage from './pages/TagConstructorPage';
 
 // Helpers
-// import ScrollToTop from './helpers/ScrollToTop';
+import ScrollToTop from './helpers/ScrollToTop';
 // import { MessageModal, useMessageModal } from './components/MessageModal';
 
 // Providers

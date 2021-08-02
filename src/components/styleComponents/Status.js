@@ -1,8 +1,11 @@
+// Libs
 import React from 'react';
 
+// StepProgressBar package
 import { ProgressBar, Step } from 'react-step-progress-bar';
 import 'react-step-progress-bar/styles.css';
 
+// Misc
 import PropTypes from 'prop-types';
 
 export default function Status({ status }) {
