@@ -1,17 +1,11 @@
 import firebase from '../firebase';
+import { addressDetailsFirestoreConverter } from '../helpers/validations/Address';
 
 export const useFirestore = () => {
   const db = firebase.firestore();
   const userColectionRef = db.collection('users');
+  const ordersColectionRef = db.collection('orders');
   const availabilityColectionRef = db.collection('availability');
-
-  /**
-   *
-   */
-  const getServerRunning = async () => {
-    return 'server_running_OK';
-  };
-  // End getServerRunning
 
   /**
    *
@@ -21,14 +15,36 @@ export const useFirestore = () => {
    */
   const postNewUser = async (uid, userData) => {
     try {
-      const docRef = await userColectionRef.doc(uid).set(userData);
+      await db.runTransaction(async (transaction) => {
+        const docRef = db.collection('users').doc(uid);
+        const doc = await transaction.get(docRef);
+        if (!doc.exists) transaction.set(docRef, userData);
+      });
       console.log('User Document successfully added!');
-      return docRef;
     } catch (error) {
       console.error('Error adding document: ', error);
     }
   };
   // End postNewUser
+
+  /**
+   *
+   * GET    /users/all
+   */
+  const getAllUsers = async () => {
+    return 'getAllUsers: NOT DEVELOPED';
+  };
+  // End getAllUsers
+
+  /**
+   *
+   * GET    /users?uid=
+   * @param {String} uid
+   */
+  const getUserByUid = async (uid) => {
+    return 'getUserByUid: NOT DEVELOPED';
+  };
+  // End getUserByUid
 
   /**
    *
@@ -40,12 +56,33 @@ export const useFirestore = () => {
     try {
       const docRef = await userColectionRef.doc(uid).update(update);
       console.log('User Document successfully updated!');
-      return docRef;
+      return update;
     } catch (error) {
       console.error('Error updating document: ', error);
     }
   };
   // End updateUserByUid
+
+  /**
+   *
+   * DELETE /users?uid=
+   * @param {String} uid
+   */
+  const deleteUserByUid = async (uid) => {
+    console.log('deleteUserByUid: NOT DEVELOPED');
+  };
+  // End deleteUserByUid
+
+  /**
+   *
+   * POST   /users/address?uid=
+   * @param {String} uid
+   * @param {Object} address
+   */
+  const postUserNewAddressesByUid = async (uid, address) => {
+    return 'postUserNewAddressesByUid: NOT DEVELOPED';
+  };
+  // End postUserNewAddressesByUid
 
   /**
    *
@@ -58,7 +95,10 @@ export const useFirestore = () => {
       const doc = await docRef.get();
       if (doc.exists) {
         const userDoc = doc.data();
-        return userDoc.addresses;
+        const addressArray = userDoc.addresses.map((addressDetails) =>
+          addressDetailsFirestoreConverter.fromFirestore(addressDetails)
+        );
+        return addressArray;
       } else {
         // doc.data() will be undefined in this case
         console.log('User Document not found in the DataBank');
@@ -76,24 +116,26 @@ export const useFirestore = () => {
    * @param {Number} index
    * @param {Object} newAddress
    */
-  const updateUserAddressByUidAndIndex = async (uid, index, newAddress) => {
+  const updateUserAddressByUidAndIndex = async (
+    uid,
+    index,
+    newAddressDetails
+  ) => {
     const docRef = userColectionRef.doc(uid);
     try {
-      await db.runTransaction(async (t) => {
+      return await db.runTransaction(async (t) => {
         const docData = await t.get(docRef);
-        const addressArray = docData.data();
-        const newAddressArray = addressArray.map((address, i) => {
-          if (i === index) {
-            return newAddress;
-          } else {
-            return address;
-          }
-        });
+        const newAddressArray = docData.data().addresses;
+        const convertedAddressDetails =
+          addressDetailsFirestoreConverter.toFirestore(newAddressDetails);
+        newAddressArray[index] = convertedAddressDetails;
+
+        console.log(newAddressArray);
         t.update(docRef, {
           addresses: newAddressArray,
         });
         console.log('User Document Address successfully updated!');
-        return { addresses: newAddressArray };
+        return newAddressArray;
       });
     } catch (error) {
       console.error('Error updating document: ', error);
@@ -108,7 +150,23 @@ export const useFirestore = () => {
    * @param {Number} index
    */
   const deleteUserAddressByUidAndIndex = async (uid, index) => {
-    console.log('deleteUserAddressByUidAndIndex: NOT DEVELOPED');
+    const docRef = userColectionRef.doc(uid);
+    try {
+      return await db.runTransaction(async (t) => {
+        const docData = await t.get(docRef);
+        const addressArray = docData.data().addresses;
+
+        const newAddressArray = addressArray.filter((_, i) => i !== index);
+
+        t.update(docRef, {
+          addresses: newAddressArray,
+        });
+        console.log('User Document Address successfully deleted!');
+        return newAddressArray;
+      });
+    } catch (error) {
+      console.error('Error updating document: ', error);
+    }
   };
   // End deleteUserAddressByUidAndIndex
 
@@ -118,7 +176,15 @@ export const useFirestore = () => {
    * @param {String} uid
    * @param {Object} newOrder
    */
-  const postNewOrder = async (uid, newOrder) => {};
+  const postNewOrder = async (uid, newOrder) => {
+    try {
+      const docRef = await ordersColectionRef.add({ uid, newOrder });
+      return docRef.id;
+    } catch (error) {
+      console.error('Error adding document: ', error);
+      Promise.reject(error);
+    }
+  };
   // End postNewOrder
 
   /**
@@ -147,6 +213,14 @@ export const useFirestore = () => {
 
   /**
    *
+   * DELETE /orders?id=
+   * @param {String} id
+   */
+  const deleteOrdersById = async (id) => {};
+  // End deleteOrdersById
+
+  /**
+   *
    * GET /availability
    */
   const getAvailability = async () => {
@@ -156,19 +230,44 @@ export const useFirestore = () => {
       if (document.exists) {
         return document.data();
       } else {
-        // doc.data() will be undefined in this case
-        console.log('Standards not found in the DataBank');
+        const standards = {
+          fontsArray: [
+            { description: 'Serif', value: 'serif' },
+            { description: 'Arial', value: 'arial' },
+            { description: 'Monospace', value: 'monospace' },
+            { description: 'Chicle', value: 'Chicle' },
+            { description: 'Fredoka One', value: 'Fredoka One' },
+            { description: 'Lemon', value: 'Lemon' },
+            { description: 'Salsa', value: 'Salsa' },
+          ],
+          insideColorArray: [
+            { description: 'Black', value: 'black' },
+            { description: 'Blue', value: 'blue' },
+            { description: 'Red', value: 'red' },
+          ],
+          outsideColorArray: [
+            { description: 'White', value: 'white' },
+            { description: 'Yellow', value: 'yellow' },
+            { description: 'Gray', value: 'light-gray' },
+          ],
+          tag_prices: { shipping_price: 10, tag_std_price: 1.2 },
+        };
+        docRef.set(standards);
+        return standards;
       }
     } catch (error) {
-      console.error('Error getting document: ', error);
+      Promise.reject(error);
     }
   };
   // End getAvailability
 
   return {
-    getServerRunning,
     postNewUser,
+    getAllUsers,
+    getUserByUid,
     updateUserByUid,
+    deleteUserByUid,
+    postUserNewAddressesByUid,
     getUserAddressesByUid,
     updateUserAddressByUidAndIndex,
     deleteUserAddressByUidAndIndex,
@@ -176,6 +275,7 @@ export const useFirestore = () => {
     getAllOrders,
     getOrdersByUid,
     updateOrdersById,
+    deleteOrdersById,
     getAvailability,
   };
 };
