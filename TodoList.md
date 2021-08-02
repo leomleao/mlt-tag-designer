@@ -1,74 +1,130 @@
-## TodoList
+# TodoList
 
-### `RegisterPage`
+- [ ] release
 
-Register page needs back button and login with google
-login redirect button
-if register with a registered email, error handling: case 'auth/email-already-in-use': redirect to login page
-add addresses to firestore
-
-### `LoginPage`
-
-Login page needs back button
-google image need style corrections
+## HomePage
 
 ### `HomePageContactForm`
 
-Develop form and conection with back end to receive e-mails
+- [x] Develop form
+- [x] Add modal message
+- [ ] Develop form with input for order
+- [x] Validation for telefone number
+- [ ] Develop conection with back end to receive e-mails
+- [ ] HomeContactForm.js:86
 
 ### `HomePage`
 
-correct line style
-when home page clicked scroll up
+- [x] Correct line style
+- [x] When home page shortcut in the footer is clicked, scroll up
 
-### `TagConstructorPages`
+### `LoadingPage`
 
-save the cart to cookie
+- [x] Nothing to Change
+
+### `LoginPage`
+
+- [x] Add back button
+- [x] Add loading gif when login is clicked
+- [ ] Validate email to send password
+- [ ] Login when user not found
+- [ ] check validation to create new user
+- [ ] network connection error
+- [ ] auth/popup-closed-by-user
+
+### `RegisterPage`
+
+- [x] Add back button
+- [x] Add login with Google Button
+- [x] Add button to redirect to login
+- [ ] Handle error: case 'auth/email-already-in-use': redirect to login page
+- [ ] Check add addresses function
+- [ ] Validate all addresses
+- [x] Add loading gif when register is clicked
+- [ ] check validation to create new user
+
+## TagConstructorPages
+
+- [x] Save the cart to cookie
+- [ ] Make responsive (do later)
 
 ### `TagConstructor`
 
-clear button need to reflect in the inputs
+- [x] Save the tag to cookie
+- [x] Clear button need to reflect in the inputs
+- [x] Add button to go to cart
+- [x] Make tag class
 
 ### `TagSummary`
 
-qtd input need to have width fixed
+- [x] Fix Qtd input width
+- [ ] Some kind of loyalty or recomendation with discount accumulative
+- [ ] Add button to Edit the tag
 
 ### `TagShipping`
 
-<p>you must be logged in</p> alert even if logged
+- [x] clear code
+- [ ] `<p>you must be logged in</p>` alert even if logged
+- [x] Validate all addresses
+- [x] Make address class
+- [x] Add registrered post option
 
 ### `TagPayment`
 
-summary needs to show shipping fee also
-
-create pey pal function
-create credit card function
+- [ ] clear code
+- [ ] summary needs to show shipping fee also
+- [ ] create pay pal function
+- [ ] create credit card function
+- [ ] setup the client-id=CLIENT_ID and currency=--- in the html sdk
+- [ ] onShippingChange change shipping address
 
 ### `TagSubmitted`
 
-blank page
+- [ ] clear code
+- [ ] showing blank page
+- [ ] fire the e-mail and backend connection when procces is closed
 
-### `UserProfilePages`
+## UserProfilePages
 
 ### `UserProfile`
 
-input width must be responsive to input value
+- [x] input width must be responsive to input value
 
 ### `UserAddresses`
 
-blank page
+- [x] showing blank page
+- [ ] add new address via modal form
+- [x] Validate all addresses
+- [x] 'autocomplete' prop for the inputs
 
 ### `UserOrders`
 
-show order details
-support button redirect to contact us form with orders details
-remove delete button
+- [ ] clear code
+- [ ] show order details
+- [ ] support button redirect to contact us form with orders details
+- [ ] remove delete button
 
-### `firestore.rules`
+### `firestore`
 
-update all
+- [ ] update all rules, current rules allow all read and writes
+- [x] tranform useFirestore to class
+
+### `Data bank`
+
+- [ ] Order = {tags: [], totalPrice: 000, addressToShip: {}, userUid: '', userName: ''}
+
+## Notes:
 
 ### `Errors`
 
-`when auth act`
-A boolean is being passed as a fourth parameter to window.open. This is not used and may cause an exception in a future release.
+- [ ] (100) signInAnonymously need to be tested
+
+### `Components`
+
+- [ ] validation in AddressCard
+- [ ] Componets use local styles, except input, textarea, slider
+
+### firebase
+
+- https://www.youtube.com/watch?v=zQyrwxMPm88
+- https://www.youtube.com/watch?v=q5J5ho7YUhA

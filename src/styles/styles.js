@@ -2,7 +2,7 @@ const styles = {
   // Gerenal styles
   btnFilledPurple: {
     margin: '25px 0px 5px 0px',
-    padding: '10px 40px',
+    padding: '10px 10px',
     borderRadius: '5px',
     color: 'white',
     fontWeight: '500',
@@ -22,8 +22,8 @@ const styles = {
   divFlexColumn: {
     minWidth: '150px',
     maxWidth: '400px',
-    width: '80vw',
-    margin: '5vh auto',
+    width: '100%',
+    margin: '3vh auto',
     display: 'flex',
     flex: '1 0 auto',
     flexDirection: 'column',
@@ -31,22 +31,15 @@ const styles = {
   divFlexRow: {
     minWidth: '150px',
     maxWidth: '400px',
-    width: '80vw',
+    width: '100%',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'stretch',
   },
-  lineStyle: {
-    minWidth: '200px',
-    maxWidth: '600px',
-    width: '50%',
-    height: '2px',
-    backgroundColor: '#e5e8ea',
-  },
   // loadind page styles
   loadingGif: {
     margin: 'auto',
-    width: '40%',
+    width: '25%',
     maxWidth: '180px',
   },
   // login page styles
@@ -64,7 +57,7 @@ const styles = {
     color: '#37474f',
     fontFamily: 'Quicksand',
     fontWeight: 650,
-    margin: '10px 0px',
+    margin: '0px',
     fontSize: 'calc(23px + 1vmin)',
     textAlign: 'left',
   },

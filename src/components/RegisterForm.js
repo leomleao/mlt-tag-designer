@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Input from './Input';
+import Input from './styleComponents/Input';
 import AddressCard from './AddressCard';
 
-import styles from '../styles/styles.js';
-import Button from './Button';
+import styles from '../styles/styles';
+import Button from './styleComponents/Button';
 
 function RegisterForm({ state, onChange }) {
   const { name, password, repeatedPassword, email, address } = state;
@@ -45,6 +45,7 @@ function RegisterForm({ state, onChange }) {
         label="Password"
         value={password}
         onChange={(newValue) => handleChange({ input: 'password', newValue })}
+        regExpPattern={/[\w\W]{6}/gm}
       />
       <Input
         type="password"
@@ -53,6 +54,7 @@ function RegisterForm({ state, onChange }) {
         onChange={(newValue) =>
           handleChange({ input: 'repeatedPassword', newValue })
         }
+        regExpPattern={/[\w\W]{6}/gm}
       />
       <Input
         type="email"
