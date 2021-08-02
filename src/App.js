@@ -14,52 +14,49 @@ import HomeContactForm from './components/pages/HomeContactForm';
 
 // providers
 import { ProvideAuth, useAuth } from './helpers/use-auth.js';
-import { CookiesProvider } from 'react-cookie';
 
 export default function App() {
   const auth = useAuth();
   return (
-    <CookiesProvider>
-      <ProvideAuth>
-        <BrowserRouter>
-          <Switch>
-            <Route path="/login/register">
-              {auth ? (
-                <Redirect
-                  to={{
-                    pathname: '/',
-                  }}
-                />
-              ) : (
-                <RegisterPage />
-              )}
-            </Route>
-            <Route path="/login">
-              {auth ? (
-                <Redirect
-                  to={{
-                    pathname: '/',
-                  }}
-                />
-              ) : (
-                <LoginPage />
-              )}
-            </Route>
-            <Route path="/tag-constructor">
-              <ParentTagContructor />
-            </Route>
-            <Route path="/contact-form">
-              <HomeContactForm />
-            </Route>
-            <Route path="/user">
-              <ParentUser />
-            </Route>
-            <Route path="/">
-              <HomePage />
-            </Route>
-          </Switch>
-        </BrowserRouter>
-      </ProvideAuth>
-    </CookiesProvider>
+    <ProvideAuth>
+      <BrowserRouter>
+        <Switch>
+          <Route path="/login/register">
+            {auth ? (
+              <Redirect
+                to={{
+                  pathname: '/',
+                }}
+              />
+            ) : (
+              <RegisterPage />
+            )}
+          </Route>
+          <Route path="/login">
+            {auth ? (
+              <Redirect
+                to={{
+                  pathname: '/',
+                }}
+              />
+            ) : (
+              <LoginPage />
+            )}
+          </Route>
+          <Route path="/tag-constructor">
+            <ParentTagContructor />
+          </Route>
+          <Route path="/contact-form">
+            <HomeContactForm />
+          </Route>
+          <Route path="/user">
+            <ParentUser />
+          </Route>
+          <Route path="/">
+            <HomePage />
+          </Route>
+        </Switch>
+      </BrowserRouter>
+    </ProvideAuth>
   );
 }
