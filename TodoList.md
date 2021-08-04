@@ -11,7 +11,7 @@
 - [ ] Develop form with input for order
 - [x] Validation for telefone number
 - [ ] Develop conection with back end to receive e-mails
-- [ ] HomeContactForm.js:86
+- [ ] HomeContactForm.js:80
 
 ### `HomePage`
 
@@ -75,6 +75,7 @@
 - [x] create pay pal function
 - [ ] create credit card function - will use Paypal function
 - [ ] setup the client-id=CLIENT_ID and currency=--- in the html sdk
+- [ ] persist orders
 
 ### `TagSubmitted`
 
