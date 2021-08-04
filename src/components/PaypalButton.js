@@ -7,11 +7,13 @@ import styles from '../styles/styles';
 export default function PaypalButton({
   order: { purchase_units: [purchase_unit] } = {},
   onApprove,
+  onInit,
+  onClick,
 }) {
   const {
     amount: { value, currency_code, breakdown } = {},
     description,
-    itens,
+    items,
     shipping,
   } = purchase_unit;
   const paypalRef = useRef();
@@ -35,7 +37,7 @@ export default function PaypalButton({
                   breakdown,
                 },
                 description: description,
-                items: itens,
+                items: items,
                 shipping: shipping,
               },
             ],
@@ -50,6 +52,10 @@ export default function PaypalButton({
           const paypalOrder = await actions.order.capture();
           onApprove(paypalOrder);
         },
+        // onInit is called when the button first renders
+        onInit: () => {},
+        // onClick is called when the button is clicked
+        onClick: onClick,
         onCancel: () => {},
         onError: (err) => {
           console.log(err);

@@ -21,13 +21,13 @@ export default function SummaryTable({
             discount: { value: discount_value = '0.00' } = {},
           } = {},
         } = {},
-        itens,
+        items,
       },
     ],
   } = {},
   shipping,
 }) {
-  const totalTagsQuantity = itens.reduce((acc, item) => {
+  const totalTagsQuantity = items.reduce((acc, item) => {
     return acc + parseInt(item.quantity);
   }, 0);
 

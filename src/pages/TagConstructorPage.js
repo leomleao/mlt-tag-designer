@@ -69,7 +69,7 @@ export default function TagConstructorPage({ showMessage }) {
         )}
 
         <div style={styles.divFlexRow}>
-          {order.purchase_units[0].itens.length > 0 && (
+          {order.purchase_units[0].items.length > 0 && (
             <Button
               style={{ ...styles.btnFilledPurple, margin: 'auto' }}
               onClick={() => history.push('/tag-constructor/sumary')}
