@@ -120,7 +120,7 @@ function useProvideAuth() {
         }
         if (address) {
           try {
-            userRecord.addresses = [address];
+            userRecord.addresses = [address.toObject()];
           } catch (error) {
             console.log(error);
           }

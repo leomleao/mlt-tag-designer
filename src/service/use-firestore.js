@@ -44,8 +44,8 @@ class DB {
       const doc = await docRef.get();
       if (doc.exists) {
         const userDoc = doc.data();
-        const addressArray = userDoc.addresses.map((addressDetails) =>
-          addressDetailsFirestoreConverter.fromFirestore(addressDetails)
+        const addressArray = userDoc.addresses.map(
+          (address) => new Address(address)
         );
         return addressArray;
       } else {
@@ -57,15 +57,13 @@ class DB {
     }
   }
 
-  async updateUserAddressByUidAndIndex(uid, index, newAddressDetails) {
+  async updateUserAddressByUidAndIndex(uid, index, newAddress) {
     const docRef = this.#userColectionRef.doc(uid);
     try {
       return await this.#db.runTransaction(async (t) => {
         const docData = await t.get(docRef);
         const newAddressArray = docData.data().addresses;
-        const convertedAddressDetails =
-          addressDetailsFirestoreConverter.toFirestore(newAddressDetails);
-        newAddressArray[index] = convertedAddressDetails;
+        newAddressArray[index] = newAddress.toObject();
         t.update(docRef, {
           addresses: newAddressArray,
         });
@@ -95,14 +93,19 @@ class DB {
     }
   }
 
-  async postNewOrder(uid, newOrder) {
+  async postNewOrder(order) {
     try {
-      const docRef = await this.#ordersColectionRef.add({ uid, newOrder });
+      const docRef = await this.#ordersColectionRef
+        .withConverter(orderConverter)
+        .add(order);
       return docRef.id;
     } catch (error) {
       console.error('Error adding document: ', error);
-      Promise.reject(error);
     }
+    // try {
+    //   return docRef.id;
+    // } catch (error) {
+    // }
   }
 
   async getAllOrders() {}

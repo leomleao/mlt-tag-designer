@@ -40,8 +40,9 @@ export default function AddressesPage({ showMessage }) {
       const addresses = await firestore.getUserAddressesByUid(user.uid);
       const addressesWithoutDetails = addresses.map((address) => {
         return {
-          ...address,
-          detailed: false,
+          address,
+          short: true,
+          saved: true,
           loading: false,
         };
       });

@@ -32,7 +32,7 @@ export default function AddressCardParent({
       const addresses = await firestore.updateUserAddressByUidAndIndex(
         user.uid,
         index,
-        newAddressArray[index]
+        newAddressArray[index].address
       );
       setUserAddresses(addresses);
     } catch (error) {
