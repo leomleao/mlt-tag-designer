@@ -76,14 +76,16 @@ export default function HomeContactForm({ showMessage }) {
   });
 
   const sendMessage = () => {
+    // http.sendMessage(form)
+    console.log(form);
     showMessage({
       code: 'form/response',
-      message: 'We received your message',
+      message:
+        'We received your message, we will be in touch as soon as possible',
       values: {
         callback: () => history.push('/'),
       },
     });
-    console.log(form);
   };
   // prettier-ignore
   const ukNumberRegExp = /^(((\+44\s?\d{4}|\(?0\d{4}\)?)\s?\d{3}\s?\d{3})|((\+44\s?\d{3}|\(?0\d{3}\)?)\s?\d{3}\s?\d{4})|((\+44\s?\d{2}|\(?0\d{2}\)?)\s?\d{4}\s?\d{4}))(\s?\#(\d{4}|\d{3}))?$/gm
@@ -113,7 +115,11 @@ export default function HomeContactForm({ showMessage }) {
               label="E-mail"
               value={form.email}
               onChange={(newName) => {
-                dispatchForm({ type: 'change', input: 'name', value: newName });
+                dispatchForm({
+                  type: 'change',
+                  input: 'email',
+                  value: newName,
+                });
               }}
               width={'80%'}
             />

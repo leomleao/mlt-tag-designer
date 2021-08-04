@@ -22,20 +22,20 @@ export default function RegisterPage({ showMessage }) {
 
   const [isLoading, setIsLoading] = React.useState(false);
 
+  const [userInput, setUserInput] = React.useState({
+    name: '',
+    password: '',
+    repeatedPassword: '',
+    email: '',
+    address: { address: null },
+  });
+
   const handleChange = (update) => {
     const { input, value } = update;
     setUserInput((prevState) => {
       return { ...prevState, [input]: value };
     });
   };
-
-  const [userInput, setUserInput] = React.useState({
-    name: '',
-    password: '',
-    repeatedPassword: '',
-    email: '',
-    address: null,
-  });
 
   React.useEffect(() => {
     if (receivedEmail) handleChange({ input: 'email', value: receivedEmail });
@@ -52,7 +52,7 @@ export default function RegisterPage({ showMessage }) {
       return;
     }
     auth
-      .signUp(email, password, name, address)
+      .signUp(email, password, name, address.address)
       .then((user) => {
         setIsLoading(false);
         history.push('/');
