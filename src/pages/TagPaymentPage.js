@@ -19,6 +19,10 @@ import PaypalButton from '../components/PaypalButton';
 // Styles
 import styles from '../styles/styles';
 
+// DataBank
+import firestore from '../service/use-firestore';
+import LoadingComponent from '../components/styleComponents/LoadingComponent';
+
 export default function TagPaymentPage() {
   const location = useLocation();
   const history = useHistory();

@@ -1,5 +1,6 @@
 import firebase from '../firebase';
-import { addressDetailsFirestoreConverter } from '../helpers/validations/Address';
+import { orderConverter } from '../utils/Order';
+import { Address } from '../utils/Address';
 
 class DB {
   #db;

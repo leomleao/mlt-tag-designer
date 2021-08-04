@@ -5,6 +5,7 @@ import AddressCard from './AddressCard';
 
 import styles from '../styles/styles';
 import Button from './styleComponents/Button';
+import { Address } from '../utils/Address';
 
 function RegisterForm({ state, onChange }) {
   const { name, password, repeatedPassword, email, address } = state;

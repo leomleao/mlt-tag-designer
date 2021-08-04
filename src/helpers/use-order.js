@@ -10,6 +10,7 @@ import React, {
 // DataBank
 import firestore from '../service/use-firestore';
 import { useAuth } from './use-auth';
+import { Order, ShippingMethodEnum } from '../utils/Order';
 
 const orderContext = createContext();
 

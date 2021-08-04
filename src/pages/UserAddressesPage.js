@@ -20,7 +20,7 @@ import SettingsButton from '../components/styleComponents/SettingsButton';
 import styles from '../styles/styles';
 
 // Validations
-import { Address } from '../helpers/validations/Address';
+import { Address } from '../utils/Address';
 
 // DataBank
 import firestore from '../service/use-firestore';

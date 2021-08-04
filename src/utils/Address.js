@@ -1,35 +1,5 @@
 import * as yup from 'yup';
 
-export const addressDetailsFirestoreConverter = {
-  toFirestore: function (addressDetails) {
-    const {
-      address: {
-        address_line_1,
-        address_line_2,
-        admin_area_1,
-        admin_area_2,
-        postal_code,
-        country_code,
-      } = {},
-    } = addressDetails;
-    return {
-      ...addressDetails,
-      address: {
-        address_line_1,
-        address_line_2,
-        admin_area_1,
-        admin_area_2,
-        postal_code,
-        country_code,
-      },
-    };
-  },
-  fromFirestore: function (snapshot, options) {
-    const data = options ? snapshot.data(options) : snapshot;
-    return { ...data, address: new Address(data.address) };
-  },
-};
-
 export const addressYupSchema = yup.object().shape({
   address_line_1: yup.string().required(), // String number and street
   address_line_2: yup.string().default(''), // Suite or apartament
@@ -54,5 +24,15 @@ export class Address {
     this.admin_area_2 = admin_area_2;
     this.postal_code = postal_code;
     this.country_code = country_code;
+  }
+  toObject() {
+    return {
+      address_line_1: this.address_line_1,
+      address_line_2: this.address_line_2,
+      admin_area_1: this.admin_area_1,
+      admin_area_2: this.admin_area_2,
+      postal_code: this.postal_code,
+      country_code: this.country_code,
+    };
   }
 }

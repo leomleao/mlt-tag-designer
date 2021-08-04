@@ -3,7 +3,7 @@ import React from 'react';
 
 // Helpers
 import { Redirect, useHistory } from 'react-router-dom';
-import { useOrderManager, Tag } from '../helpers/use-order';
+import { useOrderManager } from '../helpers/use-order';
 
 // style Components
 import Header from '../components/styleComponents/Header';

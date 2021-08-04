@@ -3,10 +3,11 @@ import AppBody from '../components/styleComponents/AppBody';
 import Button from '../components/styleComponents/Button';
 import Footer from '../components/styleComponents/Footer';
 import Header from '../components/styleComponents/Header';
-import Tag from '../components/Tag';
-import { useHistory } from 'react-router-dom';
+import TagRenderer from '../components/Tag';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import styles from '../styles/styles';
+import { Tag } from '../utils/Tag';
 
 export default function TagSubmitedPage({}) {
   const history = useHistory();

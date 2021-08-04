@@ -16,7 +16,7 @@ import Footer from '../components/styleComponents/Footer';
 import TagRenderer from '../components/Tag';
 import DiscProperties from '../components/DiscProperties';
 import LoadingComponent from '../components/styleComponents/LoadingComponent';
-import { Tag } from '../helpers/use-order';
+import { Tag } from '../utils/Tag';
 
 // Styles
 import styles from '../styles/styles';
