@@ -11,6 +11,11 @@ import { Tag } from '../utils/Tag';
 
 export default function TagSubmitedPage({}) {
   const history = useHistory();
+  const location = useLocation();
+  const { tag: stringifyedTag } = location.state || {
+    tag: '"Your Tag" with font Fredoka One - black & white',
+  };
+  const tagToDisplay = new Tag(stringifyedTag);
 
   return (
     <>
@@ -20,7 +25,7 @@ export default function TagSubmitedPage({}) {
 
       <AppBody>
         <div style={{ ...styles.divFlexColumn, alignItems: 'center' }}>
-          {/* <Tag tag={TAGs[0]} size={200} /> */}
+          <TagRenderer tag={tagToDisplay} size={200} />
           <div
             style={{
               textAlign: 'center',

@@ -28,14 +28,32 @@ export default function TagPaymentPage() {
   const history = useHistory();
   const { from } = location.state || { from: '/tag-constructor/shipping' };
 
-  const orderManager = useOrderManager();
-  const { order } = orderManager;
-  const { purchase_units: [{ shipping: { address } = {} } = {}] = [] } = order;
+  const [isLoading, setIsLoading] = React.useState(false);
 
-  const handleApprovedPayment = (data) => {
-    localStorage.removeItem('order');
-    console.log(data);
-    history.push('/tag-constructor/submited');
+  const orderManager = useOrderManager();
+  const { order, updatePayPalData, closeOrder } = orderManager;
+  const {
+    purchase_units: [
+      {
+        shipping: { address },
+      },
+    ],
+  } = order;
+
+  const handleApprovedPayment = async (data) => {
+    updatePayPalData(data);
+
+    try {
+      const firstTagDescription = order.purchase_units[0].items[0].description;
+      const orderId = await firestore.postNewOrder(order);
+      closeOrder();
+      history.push({
+        pathname: '/tag-constructor/submited',
+        state: { tag: firstTagDescription },
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -45,11 +63,23 @@ export default function TagPaymentPage() {
         <Button onClick={() => history.push(from)} icon={'navigate_before'} />
       </Header>
       <AppBody>
-        <SummaryTable order={order} shipping />
-        <div style={styles.cardParent}>
-          <AddressToShipCard address={address} />
-        </div>
-        <PaypalButton order={order} onApprove={handleApprovedPayment} />
+        {isLoading ? (
+          <div style={styles.cardParent}>
+            <LoadingComponent height={'25vh'} />
+          </div>
+        ) : (
+          <>
+            <SummaryTable order={order} shipping />
+            <div style={styles.cardParent}>
+              <AddressToShipCard address={address} />
+            </div>
+          </>
+        )}
+        <PaypalButton
+          order={order}
+          onApprove={handleApprovedPayment}
+          onClick={() => setIsLoading(true)}
+        />
       </AppBody>
       <Footer defaultButtons />
     </>
