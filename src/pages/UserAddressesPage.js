@@ -14,7 +14,7 @@ import AddressCardParent from '../components/AddressCardParent';
 import LoadingComponent from '../components/styleComponents/LoadingComponent';
 
 // functional Components
-import SettingsButton from '../components/styleComponents/SettingsButton';
+import SettingsButton from '../components/SettingsButton';
 
 // Styles
 import styles from '../styles/styles';

@@ -9,6 +9,12 @@ import { useAuth } from '../helpers/use-auth';
 import Tag from '../components/Tag';
 import Status from '../components/styleComponents/Status';
 
+// functional Components
+import SettingsButton from '../components/SettingsButton';
+import Status from '../components/Status';
+import TagRenderer from '../components/Tag';
+
+// Styles
 import styles from '../styles/styles';
 
 export default function OrdersPage() {

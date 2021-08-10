@@ -10,29 +10,29 @@ import PropTypes from 'prop-types';
 
 export default function Status({ status }) {
   const status_percentage = {
-    Submited: 16,
-    Processed: 50,
-    Delivered: 83,
-    Received: 100,
+    CREATED: 16,
+    PROCESSED: 50,
+    POSTED: 83,
+    RECEIVED: 100,
   };
   return (
     <div style={{ padding: '20px 40px 15px 38px' }}>
       <ProgressBar
-        percent={status_percentage[status]}
+        percent={status_percentage[status] || 16}
         height={6}
         filledBackground="#882aa2"
       >
         <Step>
-          {({ accomplished, index }) => (
+          {({ accomplished }) => (
             <div
               style={accomplished ? styles.accomplished : styles.unaccomplished}
             >
-              Submited
+              Created
             </div>
           )}
         </Step>
         <Step>
-          {({ accomplished, index }) => (
+          {({ accomplished }) => (
             <div
               style={accomplished ? styles.accomplished : styles.unaccomplished}
             >
@@ -41,16 +41,16 @@ export default function Status({ status }) {
           )}
         </Step>
         <Step>
-          {({ accomplished, index }) => (
+          {({ accomplished }) => (
             <div
               style={accomplished ? styles.accomplished : styles.unaccomplished}
             >
-              Delivered
+              Posted
             </div>
           )}
         </Step>
         <Step>
-          {({ accomplished, index }) => (
+          {({ accomplished }) => (
             <div
               style={accomplished ? styles.accomplished : styles.unaccomplished}
             >
@@ -64,7 +64,7 @@ export default function Status({ status }) {
 }
 
 Status.propTypes = {
-  status: PropTypes.string.isRequired,
+  status: PropTypes.string,
 };
 
 const styles = {

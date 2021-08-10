@@ -12,7 +12,7 @@ import Button from '../components/styleComponents/Button';
 import Footer from '../components/styleComponents/Footer';
 
 // functional Components
-import SettingsButton from '../components/styleComponents/SettingsButton';
+import SettingsButton from '../components/SettingsButton';
 import Input from '../components/styleComponents/Input';
 
 // Styles

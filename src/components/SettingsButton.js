@@ -3,17 +3,17 @@ import React from 'react';
 
 //  Helpers
 import { useHistory, useLocation } from 'react-router-dom';
-import { useAuth } from '../../helpers/use-auth';
+import { useAuth } from '../helpers/use-auth';
 
 // Modal package
 import 'react-responsive-modal/styles.css';
 import Modal from 'react-responsive-modal';
 
 // style Components
-import Button from './Button';
+import Button from './styleComponents/Button';
 
 // Styles
-import styles from '../../styles/styles';
+import styles from '../styles/styles';
 
 export default function SettingsButton() {
   const auth = useAuth();
