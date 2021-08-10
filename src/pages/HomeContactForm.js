@@ -24,14 +24,19 @@ export default function HomeContactForm({ showMessage }) {
   const auth = useAuth();
   const location = useLocation();
   const history = useHistory();
-  const { from } = location.state || { from: '/' };
+  const { from, order_id } = location.state || { from: '/', order_id: null };
 
   const [isLoading, setIsLoading] = React.useState(false);
 
   React.useEffect(() => {
     if (auth.user) {
       const { user } = auth;
-      const { displayName, email, phoneNumber } = user;
+      const { displayName, email, phoneNumber, uid } = user;
+      dispatchForm({
+        type: 'change',
+        input: 'user_uid',
+        value: uid,
+      });
       if (displayName) {
         dispatchForm({
           type: 'change',
@@ -73,6 +78,8 @@ export default function HomeContactForm({ showMessage }) {
     phoneNumber: '',
     subject: '',
     message: '',
+    order_id: order_id,
+    user_uid: null,
   });
 
   const sendMessage = () => {

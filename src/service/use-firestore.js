@@ -110,7 +110,20 @@ class DB {
 
   async getAllOrders() {}
 
-  async getOrdersByUid(uid) {}
+  async getOrdersByUid(uid) {
+    try {
+      const querySnapshot = await this.#ordersColectionRef
+        .where('loggedUser', '==', uid)
+        .get();
+      const orders = [];
+      querySnapshot.forEach((doc) =>
+        orders.push({ id: doc.id, ...doc.data() })
+      );
+      return orders;
+    } catch (error) {
+      console.log('Error getting documents: ', error);
+    }
+  }
 
   async updateOrdersById(id, update) {}
 

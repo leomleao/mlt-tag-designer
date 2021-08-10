@@ -154,4 +154,5 @@ export const OrderStatusEnum = Object.freeze({
   VOIDED: 'VOIDED',
   COMPLETED: 'COMPLETED',
   PAYER_ACTION_REQUIRED: 'PAYER_ACTION_REQUIRED',
+  PROCESSED: 'PROCESSED',
 });
