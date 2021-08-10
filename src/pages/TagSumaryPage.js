@@ -3,7 +3,7 @@ import React from 'react';
 
 // Helpers
 import { Redirect, useHistory } from 'react-router-dom';
-import { useOrderManager, Tag } from '../helpers/use-order';
+import { useOrderManager } from '../helpers/use-order';
 
 // style Components
 import Header from '../components/styleComponents/Header';
@@ -18,12 +18,13 @@ import SummaryTable from '../components/styleComponents/SummaryTable';
 
 // Styles
 import styles from '../styles/styles';
+import { Tag } from '../utils/Tag';
 
 export default function TagSumaryPage() {
   const history = useHistory();
   const orderManager = useOrderManager();
   const { order } = orderManager;
-  const itens = order.purchase_units[0].itens;
+  const items = order.purchase_units[0].items;
 
   const handleChange = (index, newQuantity) => {
     orderManager.changeItemQuantity(index, newQuantity);
@@ -44,12 +45,12 @@ export default function TagSumaryPage() {
   };
 
   React.useEffect(() => {
-    // console.log(itens);
+    // console.log(items);
   }, [orderManager]);
 
   return (
     <>
-      {itens.length > 0 ? (
+      {items.length > 0 ? (
         <>
           <Header subtitle="Designed Tags">
             <Button onClick={() => history.push('/')} icon={'home'} />
@@ -59,8 +60,8 @@ export default function TagSumaryPage() {
             />
           </Header>
           <AppBody>
-            {itens.map((item, index) => {
-              const tag = new Tag({}, item.stringifyTag);
+            {items.map((item, index) => {
+              const tag = new Tag(item.stringifyTag);
               const quantity = parseInt(item.quantity);
               const { typedName, fontFamily, insideColor, outsideColor } = tag;
               return (

@@ -16,7 +16,7 @@ import Footer from '../components/styleComponents/Footer';
 import TagRenderer from '../components/Tag';
 import DiscProperties from '../components/DiscProperties';
 import LoadingComponent from '../components/styleComponents/LoadingComponent';
-import { Tag } from '../helpers/use-order';
+import { Tag } from '../utils/Tag';
 
 // Styles
 import styles from '../styles/styles';
@@ -69,7 +69,7 @@ export default function TagConstructorPage({ showMessage }) {
         )}
 
         <div style={styles.divFlexRow}>
-          {order.purchase_units[0].itens.length > 0 && (
+          {order.purchase_units[0].items.length > 0 && (
             <Button
               style={{ ...styles.btnFilledPurple, margin: 'auto' }}
               onClick={() => history.push('/tag-constructor/sumary')}

@@ -7,7 +7,7 @@ import Button from './styleComponents/Button';
 import Input from './styleComponents/Input';
 import firestore from '../service/use-firestore';
 import { useAuth } from '../helpers/use-auth';
-import { addressYupSchema } from '../helpers/validations/Address';
+import { addressYupSchema } from '../utils/Address';
 
 export default function AddressCardParent({
   userAddresses,
@@ -32,7 +32,7 @@ export default function AddressCardParent({
       const addresses = await firestore.updateUserAddressByUidAndIndex(
         user.uid,
         index,
-        newAddressArray[index]
+        newAddressArray[index].address
       );
       setUserAddresses(addresses);
     } catch (error) {

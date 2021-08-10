@@ -5,6 +5,7 @@ import AddressCard from './AddressCard';
 
 import styles from '../styles/styles';
 import Button from './styleComponents/Button';
+import { Address } from '../utils/Address';
 
 function RegisterForm({ state, onChange }) {
   const { name, password, repeatedPassword, email, address } = state;
@@ -18,16 +19,7 @@ function RegisterForm({ state, onChange }) {
   const openAddressForm = () => {
     handleChange({
       input: 'address',
-      newValue: {
-        firstName: '',
-        lastName: '',
-        street: '',
-        country: '',
-        city: '',
-        postalCode: '',
-        saved: false,
-        detailed: true,
-      },
+      newValue: { address: new Address(), saved: false },
     });
     setShowAddressInput(true);
   };
@@ -65,8 +57,7 @@ function RegisterForm({ state, onChange }) {
       {showAddressInput ? (
         <div style={styles.cardParent}>
           <AddressCard
-            address={address}
-            index={0}
+            addressDetails={address}
             handleChange={(newValue) =>
               handleChange({ input: 'address', newValue })
             }

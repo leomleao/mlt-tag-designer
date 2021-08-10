@@ -14,13 +14,13 @@ import AddressCardParent from '../components/AddressCardParent';
 import LoadingComponent from '../components/styleComponents/LoadingComponent';
 
 // functional Components
-import SettingsButton from '../components/styleComponents/SettingsButton';
+import SettingsButton from '../components/SettingsButton';
 
 // Styles
 import styles from '../styles/styles';
 
 // Validations
-import { Address } from '../helpers/validations/Address';
+import { Address } from '../utils/Address';
 
 // DataBank
 import firestore from '../service/use-firestore';
@@ -40,8 +40,9 @@ export default function AddressesPage({ showMessage }) {
       const addresses = await firestore.getUserAddressesByUid(user.uid);
       const addressesWithoutDetails = addresses.map((address) => {
         return {
-          ...address,
-          detailed: false,
+          address,
+          short: true,
+          saved: true,
           loading: false,
         };
       });

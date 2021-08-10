@@ -9,7 +9,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import Button from '../components/styleComponents/Button';
 import Footer from '../components/styleComponents/Footer';
 import Input from '../components/styleComponents/Input';
-import SettingsButton from '../components/styleComponents/SettingsButton';
+import SettingsButton from '../components/SettingsButton';
 import LoadingComponent from '../components/styleComponents/LoadingComponent';
 
 // Styles

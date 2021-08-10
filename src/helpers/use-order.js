@@ -10,6 +10,7 @@ import React, {
 // DataBank
 import firestore from '../service/use-firestore';
 import { useAuth } from './use-auth';
+import { Order, ShippingMethodEnum } from '../utils/Order';
 
 const orderContext = createContext();
 
@@ -78,9 +79,8 @@ function useProvideOrder() {
         value: `${tagPrice}`,
       },
       quantity: '1',
-      stringifyTag: JSON.stringify(tag),
-      description: `"${typedName}" with font ${fontFamily} - ${insideColor} & ${outsideColor}`,
-      category: 'PHYSICAL_GOODS',
+      stringifyTag: tag.toString(),
+      description: tag.toDescripton(),
     };
     updateOrder({ type: 'addItem', newValue: newItem });
   };
@@ -98,7 +98,7 @@ function useProvideOrder() {
   };
 
   const updateAddress = (changedAddress) => {
-    updateOrder({ type: 'updateShipping', newValue: changedAddress });
+    updateOrder({ type: 'updateShippingAddress', newValue: changedAddress });
   };
 
   const changeShippingMethod = (type) => {
@@ -124,23 +124,22 @@ function useProvideOrder() {
     updateOrder({ type: 'updateRecipentName', newValue });
   };
 
-  const updateLoggerUser = (userName) => {
-    updateOrder({ type: 'updateLoggedUser', newValue: userName });
+  const updateUser = (user) => {
+    updateOrder({ type: 'updateUser', newValue: user });
+  };
+
+  const updatePayPalData = (data) => {
+    updateOrder({ type: 'updateWithPaypalData', newValue: data });
   };
 
   const closeOrder = () => {
     localStorage.removeItem('order');
+    updateOrder({ type: 'closeOrder' });
   };
 
   const { user } = useAuth();
   React.useEffect(() => {
-    const updateUserData = async () => {
-      updateLoggerUser(user.displayName);
-      updateRecipentName(user.displayName);
-      // const savedAddress = await firestore.getUserAddressesByUid(user.uid);
-      // console.log(savedAddress);
-    };
-    if (user) updateUserData();
+    if (user) updateUser(user);
   }, [user]);
 
   // Return the order object and order methods
@@ -155,6 +154,7 @@ function useProvideOrder() {
     updateRecipentName,
     changeShippingMethod,
     changeRegiteredPost,
+    updatePayPalData,
     closeOrder,
   };
 }
@@ -170,15 +170,23 @@ function orderReducer(prevOrder, action) {
   const order = Object(prevOrder);
 
   switch (type) {
-    case 'create_time':
+    case 'updateWithPaypalData':
+      const { create_time, id, payer, purchase_units, status } = newValue;
+      order.create_time = create_time;
+      order.paypalOrderId = id;
+      order.payer = payer;
+      order.status = status;
+      const { amount, items, shipping } = purchase_units[0];
+      order.purchase_units[0].amount = amount;
+      order.purchase_units[0].items = items;
+      order.purchase_units[0].shipping = {
+        ...order.purchase_units[0].shipping,
+        ...shipping,
+      };
       break;
-    case 'paypalOrderId':
-      break;
-    case 'updateLoggedUser':
-      order.loggedUser = newValue;
-      break;
-    case 'updateRecipentName':
-      order.purchase_units[0].shipping.name.full_name = newValue;
+    case 'updateUser':
+      order.loggedUser = newValue.uid;
+      order.purchase_units[0].shipping.name.full_name = newValue.displayName;
       break;
     case 'updateShippingValue':
       order.purchase_units[0].amount.breakdown.shipping.value = newValue;
@@ -193,22 +201,23 @@ function orderReducer(prevOrder, action) {
     case 'updateDiscountValue':
       order.purchase_units[0].amount.breakdown.discount.value = newValue;
       break;
-    case 'purchase_units.description':
-      break;
     case 'addItem':
-      order.purchase_units[0].itens.push(newValue);
+      order.purchase_units[0].items.push(newValue);
       break;
     case 'changeItemQuantity':
-      order.purchase_units[0].itens[index].quantity = newValue;
+      order.purchase_units[0].items[index].quantity = newValue;
       break;
     case 'changeItem':
-      order.purchase_units[0].itens[index] = newValue;
+      order.purchase_units[0].items[index] = newValue;
       break;
     case 'removeItem':
-      order.purchase_units[0].itens.splice(index, 1);
+      order.purchase_units[0].items.splice(index, 1);
       break;
     case 'updateShipping':
       order.purchase_units[0].shipping = newValue;
+      break;
+    case 'updateShippingAddress':
+      order.purchase_units[0].shipping.address = newValue;
       break;
     case 'changeShippingType':
       order.purchase_units[0].shipping.type = newValue;
@@ -216,14 +225,16 @@ function orderReducer(prevOrder, action) {
     case 'changeRegiteredPost':
       order.purchase_units[0].shipping.registeredPost = newValue;
       break;
-    case 'status':
+    case 'updateStatus':
+      order.status = newValue;
       break;
+    case 'closeOrder':
+      return new Order();
     default:
       throw new Error('No such reducer type developed');
   }
   const newOrder = new Order(order);
   localStorage.setItem('order', JSON.stringify(newOrder));
-  console.log(newOrder);
   return newOrder;
 }
 
@@ -238,165 +249,3 @@ function getOrderFromLocalStorage(newOrder) {
   }
   return newOrder;
 }
-
-class Order {
-  constructor({
-    create_time = null,
-    paypalOrderId = '',
-    loggedUser = null,
-    purchase_units: [
-      {
-        amount: {
-          //https://developer.paypal.com/docs/api/reference/currency-codes/
-          currency_code = 'GBP',
-          breakdown: {
-            item_total: { value: item_total_value = '0.00' } = {},
-            shipping: { value: shipping_value = '0.00' } = {},
-            handling: { value: handling_value = '0.00' } = {},
-            shipping_discount: { value: shipping_discount_value = '0.00' } = {},
-            discount: { value: discount_value = '0.00' } = {},
-          } = {},
-        } = {},
-        description = '',
-        itens = [],
-        shipping: {
-          name: { full_name = '' } = {},
-          type = 'SHIPPING', // 'SHIPPING' OR 'PICKUP_IN_PERSON'
-          registeredPost = false,
-          address: {
-            address_line_1 = '', // String number and street
-            address_line_2 = '', // Suite or apartament
-            admin_area_1 = '', // province or state (UK= A county.)
-            admin_area_2 = '', // city, town or village
-            postal_code = '', // https://en.wikipedia.org/wiki/Postal_code#United_Kingdom
-            country_code = '', //The two-character ISO 3166-1 code that identifies the country or region.
-          } = {},
-        } = {},
-      } = {},
-    ] = [],
-    status = null, // CREATED, SAVED, APPROVED, VOIDED, COMPLETED, PAYER_ACTION_REQUIRED
-    update_time = null,
-  } = {}) {
-    // calculations:
-    // purchase_units.amount.value.breakdown.item_total
-    if (itens.length > 0) {
-      item_total_value = itens.reduce((acc, item) => {
-        const {
-          unit_amount: { value },
-          quantity,
-        } = item;
-        const amountByItem = parseFloat(value) * parseInt(quantity);
-        return acc + amountByItem;
-      }, 0);
-      item_total_value = item_total_value;
-      if (loggedUser) {
-        description = `${loggedUser} Tags`;
-      }
-    }
-    // purchase_units.amount.value
-    item_total_value = parseFloat(item_total_value);
-    shipping_value = parseFloat(shipping_value);
-    handling_value = parseFloat(handling_value);
-    shipping_discount_value = parseFloat(shipping_discount_value);
-    discount_value = parseFloat(discount_value);
-    const value =
-      item_total_value +
-      shipping_value +
-      handling_value -
-      shipping_discount_value -
-      discount_value;
-
-    this.create_time = create_time;
-    this.paypalOrderId = paypalOrderId;
-    this.loggedUser = loggedUser;
-    this.intent = 'CAPTURE';
-    this.purchase_units = [
-      {
-        amount: {
-          currency_code,
-          value: value.toFixed(2).toString(),
-          breakdown: {
-            item_total: {
-              currency_code,
-              value: item_total_value.toFixed(2).toString(),
-            },
-            shipping: {
-              currency_code,
-              value: shipping_value.toFixed(2).toString(),
-            },
-            handling: {
-              currency_code,
-              value: handling_value.toFixed(2).toString(),
-            },
-            shipping_discount: {
-              currency_code,
-              value: shipping_discount_value.toFixed(2).toString(),
-            },
-            discount: {
-              currency_code,
-              value: discount_value.toFixed(2).toString(),
-            },
-          },
-        },
-        description,
-        itens,
-        shipping: {
-          name: { full_name },
-          type: type,
-          registeredPost: registeredPost,
-          address: {
-            address_line_1,
-            address_line_2,
-            admin_area_1,
-            admin_area_2,
-            postal_code,
-            country_code,
-          },
-        },
-      },
-    ];
-    this.status = status;
-    this.update_time = update_time;
-  }
-}
-
-export class Tag {
-  constructor(
-    {
-      typedName = '',
-      fontFamily = 'serif',
-      insideColor = 'black',
-      outsideColor = 'white',
-    } = {},
-    stringifyedTag
-  ) {
-    if (stringifyedTag) {
-      const storedTag = JSON.parse(stringifyedTag);
-      typedName = storedTag.typedName;
-      fontFamily = storedTag.fontFamily;
-      insideColor = storedTag.insideColor;
-      outsideColor = storedTag.outsideColor;
-    }
-    this.typedName = typedName;
-    this.fontFamily = fontFamily;
-    this.insideColor = insideColor;
-    this.outsideColor = outsideColor;
-  }
-  logTag() {
-    console.log(this);
-  }
-}
-
-export const ShippingMethodEnum = Object.freeze({
-  SHIPPING: 'SHIPPING',
-  PICKUP_IN_PERSON: 'PICKUP_IN_PERSON',
-});
-
-export const OrderStatusEnum = Object.freeze({
-  CREATED: 'CREATED',
-  SAVED: 'SAVED',
-  APPROVED: 'APPROVED',
-  VOIDED: 'VOIDED',
-  COMPLETED: 'COMPLETED',
-  PAYER_ACTION_REQUIRED: 'PAYER_ACTION_REQUIRED',
-});

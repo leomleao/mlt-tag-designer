@@ -12,7 +12,7 @@ import Button from '../components/styleComponents/Button';
 import Footer from '../components/styleComponents/Footer';
 
 // functional Components
-import SettingsButton from '../components/styleComponents/SettingsButton';
+import SettingsButton from '../components/SettingsButton';
 import Input from '../components/styleComponents/Input';
 
 // Styles
@@ -24,14 +24,19 @@ export default function HomeContactForm({ showMessage }) {
   const auth = useAuth();
   const location = useLocation();
   const history = useHistory();
-  const { from } = location.state || { from: '/' };
+  const { from, order_id } = location.state || { from: '/', order_id: null };
 
   const [isLoading, setIsLoading] = React.useState(false);
 
   React.useEffect(() => {
     if (auth.user) {
       const { user } = auth;
-      const { displayName, email, phoneNumber } = user;
+      const { displayName, email, phoneNumber, uid } = user;
+      dispatchForm({
+        type: 'change',
+        input: 'user_uid',
+        value: uid,
+      });
       if (displayName) {
         dispatchForm({
           type: 'change',
@@ -73,17 +78,21 @@ export default function HomeContactForm({ showMessage }) {
     phoneNumber: '',
     subject: '',
     message: '',
+    order_id: order_id,
+    user_uid: null,
   });
 
   const sendMessage = () => {
+    // http.sendMessage(form)
+    console.log(form);
     showMessage({
       code: 'form/response',
-      message: 'We received your message',
+      message:
+        'We received your message, we will be in touch as soon as possible',
       values: {
         callback: () => history.push('/'),
       },
     });
-    console.log(form);
   };
   // prettier-ignore
   const ukNumberRegExp = /^(((\+44\s?\d{4}|\(?0\d{4}\)?)\s?\d{3}\s?\d{3})|((\+44\s?\d{3}|\(?0\d{3}\)?)\s?\d{3}\s?\d{4})|((\+44\s?\d{2}|\(?0\d{2}\)?)\s?\d{4}\s?\d{4}))(\s?\#(\d{4}|\d{3}))?$/gm
@@ -113,7 +122,11 @@ export default function HomeContactForm({ showMessage }) {
               label="E-mail"
               value={form.email}
               onChange={(newName) => {
-                dispatchForm({ type: 'change', input: 'name', value: newName });
+                dispatchForm({
+                  type: 'change',
+                  input: 'email',
+                  value: newName,
+                });
               }}
               width={'80%'}
             />

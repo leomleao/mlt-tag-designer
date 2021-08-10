@@ -3,7 +3,7 @@ import Input from './styleComponents/Input';
 import Button from './styleComponents/Button';
 
 // Validations
-import { Address } from '../helpers/validations/Address';
+import { Address } from '../utils/Address';
 
 import styles from '../styles/styles';
 

@@ -35,7 +35,6 @@ export default function TagShippingPage() {
       } = {},
     ] = [],
   } = order;
-  const addressDetails = { address };
   // get user addresses
   const { user } = useAuth();
   const [addresses, setAddresses] = React.useState([]);
@@ -44,6 +43,7 @@ export default function TagShippingPage() {
     const getAddresses = async () => {
       try {
         const data = await firestore.getUserAddressesByUid(user.uid);
+
         if (data) setAddresses(data);
       } catch (error) {
         console.error('Cannot retrive addresses data' + error);
@@ -63,8 +63,8 @@ export default function TagShippingPage() {
     orderManager.changeRegiteredPost(!registeredPost);
   };
 
-  const handleAddressChange = (newAddress) => {
-    orderManager.updateAddress(newAddress);
+  const handleAddressChange = ({ address }) => {
+    orderManager.updateAddress(address);
   };
   const handleNameChange = (newName) => {
     orderManager.updateRecipentName(newName);
@@ -97,7 +97,7 @@ export default function TagShippingPage() {
         >
           {addresses.length > 0 ? (
             <div style={styles.modalFlexColumn}>
-              {addresses.map(({ address }, index) => {
+              {addresses.map((address, index) => {
                 return (
                   <div key={index}>
                     <Button
@@ -123,6 +123,15 @@ export default function TagShippingPage() {
             </>
           )}
         </Modal>
+        <div style={styles.cardParent}>
+          <Input
+            type="text"
+            label="Recipient's Name"
+            value={full_name}
+            autoComplete="name"
+            onChange={handleNameChange}
+          />
+        </div>
         <div style={styles.divFlexRow}>
           <Button
             onClick={handleOpenAdreessesModal}
@@ -133,17 +142,8 @@ export default function TagShippingPage() {
           </Button>
         </div>
         <div style={styles.cardParent}>
-          <Input
-            type="text"
-            label="Recipient's Name"
-            value={full_name}
-            autoComplete="name"
-            onChange={handleNameChange}
-          />
-        </div>
-        <div style={styles.cardParent}>
           <AddressCard
-            addressDetails={addressDetails}
+            addressDetails={{ address }}
             handleChange={handleAddressChange}
           />
         </div>
